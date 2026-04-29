@@ -16,7 +16,7 @@
 
 ```text
 docs/
-└── 设计/
+└── design/
     ├── DSV32_DP场景O矩阵列切方案分析.md
     │   — DeepSeek V3.2 O 矩阵切分方案综合分析
     │   （vllm-ascend SFA V1 vs MindIE-LLM DP 场景）
