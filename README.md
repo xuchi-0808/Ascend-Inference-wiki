@@ -16,15 +16,13 @@
 
 ```text
 docs/
-├── 设计决策/
-│   └── DP场景O矩阵列切方案分析.md
-│       — DeepSeek V3.2 O 矩阵切分方案综合分析
-│       （vllm-ascend SFA V1 vs MindIE-LLM DP 场景，验证后结论：不做）
-│
-└── 技术分析/
-    └── MLA_O矩阵Module-Level_TP方案分析.md
+└── 设计/
+    ├── DSV32_DP场景O矩阵列切方案分析.md
+    │   — DeepSeek V3.2 O 矩阵切分方案综合分析
+    │   （vllm-ascend SFA V1 vs MindIE-LLM DP 场景）
+    │
+    └── DSV4_MLA_O矩阵Module-Level_TP方案分析.md
         — DeepSeek V4 MLA Attention O-Proj Module-Level TP 方案分析
-        （评估后结论：通信开销过大，暂不上库）
 ```
 
 ## How to Use
