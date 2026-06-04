@@ -1,6 +1,6 @@
 # vllm-ascend 从源码编译安装
 
-## 1. 安装 vllm
+## 1. 安装 [vllm](https://github.com/vllm-project/vllm)
 
 ```bash
 git clone <vllm-repo>
@@ -11,7 +11,7 @@ VLLM_TARGET_DEVICE=empty pip install -e .
 
 > `VLLM_TARGET_DEVICE=empty` 必须设置，否则会尝试编译 CUDA kernel 而报错。
 
-## 2. 安装 vllm-ascend
+## 2. 安装 [vllm-ascend](https://github.com/vllm-project/vllm-ascend)
 
 ### 内网环境
 
