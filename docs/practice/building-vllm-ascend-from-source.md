@@ -5,6 +5,7 @@
 ```bash
 git clone <vllm-repo>
 cd vllm
+
 VLLM_TARGET_DEVICE=empty pip install -e .
 ```
 
@@ -12,9 +13,9 @@ VLLM_TARGET_DEVICE=empty pip install -e .
 
 ## 2. 安装 vllm-ascend
 
-### 内网环境（绿区/蓝区）
+### 内网环境
 
-内网无法访问 PyPI，需要配置华为 triton 源：
+无法访问 PyPI 时需要配置内部 triton 源：
 
 ```bash
 git clone <vllm-ascend-repo>
