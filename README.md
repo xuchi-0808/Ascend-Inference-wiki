@@ -6,8 +6,8 @@
 
 专注于 **Ascend NPU 大模型推理引擎** 的开发与适配工作，主要涉及：
 
-- **MindIE-LLM**：华为大模型推理引擎，包括特性开发、性能优化、问题定位等
 - **vllm-ascend**：vLLM 推理框架在昇腾平台的移植与适配
+- **MindIE-LLM**：华为大模型推理引擎，包括特性开发、性能优化、问题定位等
 - **ATB** (Ascend Tensor Builder)：昇腾算子库相关开发
 - **msmodelslim**：模型压缩 / 瘦身工具
 - **性能 Benchmark**：推理性能测试与调优
@@ -16,13 +16,24 @@
 
 ```text
 docs/
-└── design/
-    ├── DSV32_DP场景O矩阵列切方案分析.md
-    │   — DeepSeek V3.2 O 矩阵切分方案综合分析
-    │   （vllm-ascend SFA V1 vs MindIE-LLM DP 场景）
+├── design/           # 技术设计方案
+│   ├── DSV32_DP场景O矩阵列切方案分析.md
+│   │   — DeepSeek V3.2 O 矩阵切分方案综合分析
+│   │   （vllm-ascend SFA V1 vs MindIE-LLM DP 场景）
+│   │
+│   └── DSV4_MLA_O矩阵Module-Level_TP方案分析.md
+│       — DeepSeek V4 MLA Attention O-Proj Module-Level TP 方案分析
+│
+├── debug/            # 问题定位记录
+│   └── A00275_Qwen3-235B_双机accuracy分析.md
+│       — Qwen3-235B-A22B 双机 nightly GSM8K accuracy 不达标排查
+│
+└── practice/         # 实操指南
+    ├── 双机测试手动拉起经验总结.md
+    │   — 从测试框架中提取环境变量和 vllm serve 命令的手动拉起方式
     │
-    └── DSV4_MLA_O矩阵Module-Level_TP方案分析.md
-        — DeepSeek V4 MLA Attention O-Proj Module-Level TP 方案分析
+    └── 从CI日志提取测试拉起方式.md
+        — 如何从 CI 日志中自行提取完整的测试拉起信息
 ```
 
 ## How to Use
