@@ -17,23 +17,26 @@
 ```text
 docs/
 ├── design/           # 技术设计方案
-│   ├── DSV32_DP场景O矩阵列切方案分析.md
+│   ├── dsv32-dp-o-matrix-column-splitting.md
 │   │   — DeepSeek V3.2 O 矩阵切分方案综合分析
 │   │   （vllm-ascend SFA V1 vs MindIE-LLM DP 场景）
 │   │
-│   └── DSV4_MLA_O矩阵Module-Level_TP方案分析.md
+│   └── dsv4-mla-o-matrix-module-level-tp.md
 │       — DeepSeek V4 MLA Attention O-Proj Module-Level TP 方案分析
 │
 ├── debug/            # 问题定位记录
-│   └── A00275_Qwen3-235B_双机accuracy分析.md
+│   └── qwen3-235b-dual-node-accuracy-regression.md
 │       — Qwen3-235B-A22B 双机 nightly GSM8K accuracy 不达标排查
 │
 └── practice/         # 实操指南
-    ├── 双机测试手动拉起经验总结.md
+    ├── dual-node-test-manual-launch-guide.md
     │   — 从测试框架中提取环境变量和 vllm serve 命令的手动拉起方式
     │
-    └── 从CI日志提取测试拉起方式.md
-        — 如何从 CI 日志中自行提取完整的测试拉起信息
+    ├── extracting-test-procedure-from-ci-logs.md
+    │   — 如何从 CI 日志中自行提取完整的测试拉起信息
+    │
+    └── building-vllm-ascend-from-source.md
+        — vllm-ascend 从源码编译安装指南
 ```
 
 ## How to Use
