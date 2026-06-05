@@ -6,7 +6,7 @@
 git clone <vllm-repo>
 cd vllm
 
-VLLM_TARGET_DEVICE=empty pip install -e .
+VLLM_TARGET_DEVICE=empty pip install -e . -v
 ```
 
 > `VLLM_TARGET_DEVICE=empty` 必须设置，否则会尝试编译 CUDA kernel 而报错。
