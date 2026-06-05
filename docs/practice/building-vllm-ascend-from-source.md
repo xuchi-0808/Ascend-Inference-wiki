@@ -31,9 +31,6 @@ pip install -v -r requirements.txt \
   --trusted-host triton-ascend.osinfra.cn \
   --upgrade-strategy only-if-needed \
   --extra-index-url https://triton-ascend.osinfra.cn/pypi/simple
-```
-
-```bash
 pip install -v -e . \
   --no-build-isolation \
   --trusted-host triton-ascend.osinfra.cn \
@@ -50,9 +47,6 @@ cd vllm-ascend
 
 ```bash
 pip install -v -r requirements.txt
-```
-
-```bash
 pip install -v -e . --no-build-isolation
 ```
 
