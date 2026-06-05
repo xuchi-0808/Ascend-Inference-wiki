@@ -1,18 +1,11 @@
 # vllm-ascend 从源码编译安装
 
-## 0. 克隆代码
+## 1. 安装 [vllm](https://github.com/vllm-project/vllm)
 
 ```bash
 git clone <vllm-repo> vllm
 cd vllm
 ```
-
-```bash
-git clone <vllm-ascend-repo> vllm-ascend
-cd vllm-ascend
-```
-
-## 1. 安装 [vllm](https://github.com/vllm-project/vllm)
 
 ```bash
 cd vllm
@@ -29,6 +22,11 @@ cd ..
 ### 内网环境
 
 无法访问 PyPI 时需要配置内部 triton 源：
+
+```bash
+git clone <vllm-ascend-repo> vllm-ascend
+cd vllm-ascend
+```
 
 ```bash
 cd vllm-ascend
@@ -50,6 +48,11 @@ cd ..
 ```
 
 ### 外网环境
+
+```bash
+git clone <vllm-ascend-repo> vllm-ascend
+cd vllm-ascend
+```
 
 ```bash
 cd vllm-ascend
