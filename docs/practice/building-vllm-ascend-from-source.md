@@ -66,6 +66,24 @@ sed -i 's/\$SCRIPT_DIR/\$ROOT_DIR/g' csrc/build_aclnn.sh
 pip install -v -e . --no-build-isolation
 ```
 
+### 编译时报 `Stale file handle` 错误
+
+错误：
+
+```text
+rm: cannot remove 'build/prepare_build/.../proto_stub.cpp': Stale file handle
+rm: fts_read failed: Stale file handle
+```
+
+原因：NFS 上上一次编译残留的文件句柄过期。
+
+解决：
+
+```bash
+rm -rf csrc/build build
+pip install -v -e . --no-build-isolation
+```
+
 ### vllm 版本号显示 `dev` 不是期望的版本号
 
 原因：vllm 使用 `setuptools_scm` 从 git tag 获取版本号，当前分支没有对应 tag 时默认为 `"dev"`。某些代码（如 `patch_mla_prefill_backend.py`）依赖 `vllm.__version__` 做版本判断，`"dev"` 会导致行为异常。
