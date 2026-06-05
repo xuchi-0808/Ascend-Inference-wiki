@@ -1,12 +1,23 @@
 # vllm-ascend 从源码编译安装
 
+## 0. 克隆代码
+
+```bash
+git clone <vllm-repo> vllm
+cd vllm
+```
+
+```bash
+git clone <vllm-ascend-repo> vllm-ascend
+cd vllm-ascend
+```
+
 ## 1. 安装 [vllm](https://github.com/vllm-project/vllm)
 
 ```bash
-git clone <vllm-repo>
 cd vllm
-
 VLLM_TARGET_DEVICE=empty pip install -v -e . --no-build-isolation
+cd ..
 ```
 
 > `VLLM_TARGET_DEVICE=empty` 必须设置，否则会尝试编译 CUDA kernel 而报错。
@@ -20,28 +31,36 @@ VLLM_TARGET_DEVICE=empty pip install -v -e . --no-build-isolation
 无法访问 PyPI 时需要配置内部 triton 源：
 
 ```bash
-git clone <vllm-ascend-repo>
 cd vllm-ascend
-
 pip install -v -r requirements.txt \
   --trusted-host triton-ascend.osinfra.cn \
   --upgrade-strategy only-if-needed \
   --extra-index-url https://triton-ascend.osinfra.cn/pypi/simple
+cd ..
+```
 
+```bash
+cd vllm-ascend
 pip install -v -e . \
   --no-build-isolation \
   --trusted-host triton-ascend.osinfra.cn \
   --upgrade-strategy only-if-needed \
   --extra-index-url https://triton-ascend.osinfra.cn/pypi/simple
+cd ..
 ```
 
 ### 外网环境
 
 ```bash
-git clone <vllm-ascend-repo>
 cd vllm-ascend
 pip install -v -r requirements.txt
+cd ..
+```
+
+```bash
+cd vllm-ascend
 pip install -v -e . --no-build-isolation
+cd ..
 ```
 
 ## 3. FAQ
@@ -53,8 +72,10 @@ pip install -v -e . --no-build-isolation
 原因：`csrc/build_aclnn.sh` 中使用了未定义的变量 `$SCRIPT_DIR`，应改为 `$ROOT_DIR`。
 
 ```bash
+cd vllm-ascend
 sed -i 's/\$SCRIPT_DIR/\$ROOT_DIR/g' csrc/build_aclnn.sh
 pip install -v -e . --no-build-isolation
+cd ..
 ```
 
 ### vllm 版本号显示 `dev` 不是期望的版本号
