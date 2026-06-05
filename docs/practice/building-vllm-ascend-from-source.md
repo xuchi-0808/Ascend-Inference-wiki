@@ -8,9 +8,7 @@ cd vllm
 ```
 
 ```bash
-cd vllm
 VLLM_TARGET_DEVICE=empty pip install -v -e . --no-build-isolation
-cd ..
 ```
 
 > `VLLM_TARGET_DEVICE=empty` 必须设置，否则会尝试编译 CUDA kernel 而报错。
@@ -29,22 +27,18 @@ cd vllm-ascend
 ```
 
 ```bash
-cd vllm-ascend
 pip install -v -r requirements.txt \
   --trusted-host triton-ascend.osinfra.cn \
   --upgrade-strategy only-if-needed \
   --extra-index-url https://triton-ascend.osinfra.cn/pypi/simple
-cd ..
 ```
 
 ```bash
-cd vllm-ascend
 pip install -v -e . \
   --no-build-isolation \
   --trusted-host triton-ascend.osinfra.cn \
   --upgrade-strategy only-if-needed \
   --extra-index-url https://triton-ascend.osinfra.cn/pypi/simple
-cd ..
 ```
 
 ### 外网环境
@@ -55,15 +49,11 @@ cd vllm-ascend
 ```
 
 ```bash
-cd vllm-ascend
 pip install -v -r requirements.txt
-cd ..
 ```
 
 ```bash
-cd vllm-ascend
 pip install -v -e . --no-build-isolation
-cd ..
 ```
 
 ## 3. FAQ
@@ -75,10 +65,11 @@ cd ..
 原因：`csrc/build_aclnn.sh` 中使用了未定义的变量 `$SCRIPT_DIR`，应改为 `$ROOT_DIR`。
 
 ```bash
-cd vllm-ascend
 sed -i 's/\$SCRIPT_DIR/\$ROOT_DIR/g' csrc/build_aclnn.sh
+```
+
+```bash
 pip install -v -e . --no-build-isolation
-cd ..
 ```
 
 ### vllm 版本号显示 `dev` 不是期望的版本号
