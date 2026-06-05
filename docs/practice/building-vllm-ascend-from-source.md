@@ -6,10 +6,12 @@
 git clone <vllm-repo>
 cd vllm
 
-VLLM_TARGET_DEVICE=empty pip install -e . -v
+VLLM_TARGET_DEVICE=empty pip install -v -e . --no-build-isolation
 ```
 
 > `VLLM_TARGET_DEVICE=empty` 必须设置，否则会尝试编译 CUDA kernel 而报错。
+>
+> `--no-build-isolation` 避免重新构建 build 依赖（如 setuptools、wheel 等），可大幅减少安装时间。
 
 ## 2. 安装 [vllm-ascend](https://github.com/vllm-project/vllm-ascend)
 
@@ -21,12 +23,13 @@ VLLM_TARGET_DEVICE=empty pip install -e . -v
 git clone <vllm-ascend-repo>
 cd vllm-ascend
 
-pip install -r requirements.txt \
+pip install -v -r requirements.txt \
   --trusted-host triton-ascend.osinfra.cn \
   --upgrade-strategy only-if-needed \
   --extra-index-url https://triton-ascend.osinfra.cn/pypi/simple
 
-pip install -e . \
+pip install -v -e . \
+  --no-build-isolation \
   --trusted-host triton-ascend.osinfra.cn \
   --upgrade-strategy only-if-needed \
   --extra-index-url https://triton-ascend.osinfra.cn/pypi/simple
@@ -37,8 +40,8 @@ pip install -e . \
 ```bash
 git clone <vllm-ascend-repo>
 cd vllm-ascend
-pip install -r requirements.txt
-pip install -e .
+pip install -v -r requirements.txt
+pip install -v -e . --no-build-isolation
 ```
 
 ## 3. FAQ
@@ -51,7 +54,7 @@ pip install -e .
 
 ```bash
 sed -i 's/\$SCRIPT_DIR/\$ROOT_DIR/g' csrc/build_aclnn.sh
-pip install -e .
+pip install -v -e . --no-build-isolation
 ```
 
 ### vllm 版本号显示 `dev` 不是期望的版本号
