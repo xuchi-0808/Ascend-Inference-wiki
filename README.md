@@ -24,9 +24,13 @@ docs/
 │   └── dsv4-mla-o-matrix-module-level-tp.md
 │       — DeepSeek V4 MLA Attention O-Proj Module-Level TP 方案分析
 │
-├── debug/            # 问题定位记录
-│   └── qwen3-235b-dual-node-accuracy-regression.md
-│       — Qwen3-235B-A22B 双机 nightly GSM8K accuracy 不达标排查
+├── debug/            # 调测经验总结（无编号，英文名）
+│   ├── environment-troubleshooting-guide.md
+│   │   — 双机环境调试踩坑记录（编译/环境变量/benchmark 等）
+│   ├── qwen3-235b-dual-node-accuracy-regression.md
+│   │   — Qwen3-235B 双机 GSM8K accuracy 排查记录
+│   └── qwen3-235b-manual-launch.md
+│       — 双机 vllm serve + aisbench 手动拉起命令速查
 │
 └── practice/         # 实操指南
     ├── dual-node-test-manual-launch-guide.md
@@ -37,6 +41,8 @@ docs/
     │
     └── building-vllm-ascend-from-source.md
         — vllm-ascend 从源码编译安装指南
+
+debug/                   # 草稿区（可以有编号、非英文名）
 ```
 
 ## How to Use
