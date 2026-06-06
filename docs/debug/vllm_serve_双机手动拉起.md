@@ -91,7 +91,7 @@ ais_bench 需要两个自定义配置文件，由测试框架自动生成。手�
 
 ```bash
 cd vllm-workspace_A00275/vllm-ascend
-export BENCHMARK_HOME="/tmp/aisbench_work"
+export BENCHMARK_HOME="/usr/local/python3.11.10/lib/python3.11/site-packages"
 mkdir -p $BENCHMARK_HOME/ais_bench/benchmark/configs/models/vllm_api
 mkdir -p $BENCHMARK_HOME/ais_bench/benchmark/configs/datasets/gsm8k
 mkdir -p $BENCHMARK_HOME/ais_bench/datasets
@@ -103,7 +103,7 @@ cp -r /usr/local/python3.11.10/lib/python3.11/site-packages/ais_bench/datasets/g
 ### Accuracy 测试（单跑）
 
 ```bash
-export BENCHMARK_HOME="/tmp/aisbench_work"
+export BENCHMARK_HOME="/usr/local/python3.11.10/lib/python3.11/site-packages"
 
 # 1. 准备自定义请求配置文件
 cat > $BENCHMARK_HOME/ais_bench/benchmark/configs/models/vllm_api/vllm_api_general_chat_custom.py << 'EOF'
