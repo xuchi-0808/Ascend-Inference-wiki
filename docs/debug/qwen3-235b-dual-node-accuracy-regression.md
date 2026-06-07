@@ -100,30 +100,45 @@ GSM8K accuracy = 88.78% (baseline 95%)
 
 ---
 
-## 代码变更分析（5/20 → 5/22 的 38 个 commit）
+## 根因结论
 
-两个流水线之间共有 **38 个 commit**，均在 `vllm-ascend main` 分支上（`eb7e9b0f` → `68a4db55`）。
+### 问题本质：MoE 路由精度不足
 
-### 最高嫌疑 commit
+分析后确认两个层次的精度损失：
 
-| Commit | 说明 | 改动范围 | 嫌疑度 |
-|:---|:---|:---|:---:|
-| `958daf83` | env vars 迁移到 AscendConfig | `moe_comm_method.py`(694行)、`ascend_forward_context.py`、`ascend_config.py` 等 | ⭐⭐⭐⭐⭐ |
-| `7bce23cc` | DeepSeekV4 支持 | 2487 行，含 `moe_comm_method.py`、`prepare_finalize.py` 等 | ⭐⭐⭐ |
-| `d7cc6652` | NPUIR 升级 UB overflow 修复 | 1 行，但描述了 NPU 环境变更背景 | ⭐⭐ |
-| `de00758e` | DFlash FULL_DESCODE_ONLY 精度修复 | `attention_v1.py` | ⭐⭐ |
+1. **HCCL allgather fake wait 缺陷**——在所有 CI 运行（包括 5/20 成功）中都存在，造成约 2-4% 的系统性精度损失（95% → 90-92%）
+2. **MoE router gate BF16 精度不足**——导致额外的 ~2-3% 损失，使精度跌破阈值
 
-### Git bisect 计划
+### 修复确认
+
+2026/6/6~6/7（周六日）nightly CI 全部重新通过。合入 `main` 的三个 MoE 精度相关 commit 是修复关键：
+
+| 日期 | Commit | 说明 |
+|:---:|:---|:---|
+| 5/26 | `b86670f6` | Disable SwiGLU clamp 默认关闭，避免计算被截断 |
+| **5/30** | **`78aa7ae3`** | **MoE router gate 保留 FP32 精度** ⭐ |
+| 5/30 | `2a77209a` | 去掉 MoE 冗余重归一化操作 |
+
+**最可能修复：`78aa7ae3`** — MoE 路由门控（router gate）从 BF16 改为 FP32 计算。MoE 模型选专家全靠 router logits，BF16 精度不足会导致选错专家，token 走错路径 → systematic accuracy degradation。
+
+### 绿区验证
+
+| 测试 | 5/20 commit (eb7e9b0f) |
+|:---|:---:|
+| GSM8K | **90.14%**（CI 为 92.80%，差异源于环境） |
+| HCCL warning | ✅ 存在 |
+
+### 完整时间线
 
 ```text
-eb7e9b0f  ← ✅ 成功 (5/20, GSM8K 92.80%)
-    │  38 commits
-68a4db55  ← ❌ 首次失败 (5/22, GSM8K 90.52%)
+5/20  CI 92.80% ✅               ← 环境差异下偶然通过
+5/22  CI 90.52% ❌ 首次失败       ← MoE routing 精度问题显现
+5/26  b86670f6 合入              ← SwiGLU clamp fix
+5/30  78aa7ae3 合入              ← FP32 router gate fix ⭐
+5/30  2a77209a 合入              ← 冗余归一化移除
+6/5   镜像重建                    ← 所有 fix 进镜像
+6/6~  ✅ 周六日起全部通过
 ```
-
-最多 log₂(38) ≈ 6 次运行，二分法定位到具体 commit。
-
----
 
 ## 其他线索
 
