@@ -1,5 +1,7 @@
 # vllm-ascend 从源码编译安装
 
+> 本文档指导用户在 Ascend NPU 环境下从源码编译安装 vllm 和 vllm-ascend。涵盖 **华为内网环境**（需配置内部 PyPI 源）和 **外网环境** 两种场景，用户可根据实际网络条件选择对应步骤。安装前请确保已准备好 CANN、torch_npu 等依赖。
+
 ## 1. 安装 [vllm](https://github.com/vllm-project/vllm)
 
 ```bash
