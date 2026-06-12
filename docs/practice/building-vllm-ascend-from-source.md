@@ -104,6 +104,39 @@ pip install -v -e . --no-build-isolation
 
 解决：拉取目标 tag，或在 `pip install` 前设置 `SETUPTOOLS_SCM_PRETEND_VERSION`。
 
+### CPack 打包报错 `No such file: CANN-custom_ops*.run`
+
+错误：
+
+```text
+CPack Error: Problem running install command: cmake --build . --target "preinstall"
+csrc/build_aclnn.sh: line 84: ./output/CANN-custom_ops*.run: No such file or directory
+```
+
+原因：前一次编译残留的 `csrc/build` 目录导致 CPack 打包不一致。
+
+解决：
+
+```bash
+rm -rf csrc/build csrc/output
+pip install -v -e . --no-build-isolation
+```
+
+### `HAS_TRITON=False` 导致自定义算子未注册
+
+现象：启动 server 时 torch.compile 阶段报 `AttributeError: '_OpNamespace' 'vllm' object has no attribute 'qkv_rmsnorm_rope'`。
+
+原因：`vllm_ascend/ops/__init__.py` 中 `if HAS_TRITON:` 依赖 vllm 的 `triton_utils.HAS_TRITON`。该值通过 `import triton.backends` 判断，某些 triton-ascend 版本未暴露 `triton.backends` 模块，导致 `HAS_TRITON=False`，相关自定义算子被跳过注册，后续 NPU 编译 pass 调用时找不到。
+
+临时绕过：
+
+```bash
+sed -i 's/if HAS_TRITON:/if True:  # force for bisect/' vllm_ascend/ops/__init__.py
+pip install -v -e . --no-build-isolation
+```
+
+> 此修改仅适用于验证场景，正式修复需确保 triton-ascend 版本能正确导出 `triton.backends`。
+
 ---
 
 ## 4. 验证安装
