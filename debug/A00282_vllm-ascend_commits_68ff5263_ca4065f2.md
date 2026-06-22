@@ -14,9 +14,10 @@
 
 ## 逐笔分析
 
-### 1. `93160405` — **[BugFix] fix dcp async bug (#8749)**
+### 1. `93160405` — `(BugFix) fix dcp async bug (#8749)`
 
 **变更文件（5 files, +167/-12）**：
+
 - `tests/e2e/nightly/single_node/2-cards/spec_decode/test_spec_decode.py`
 - `vllm_ascend/attention/context_parallel/attention_cp.py`
 - `vllm_ascend/attention/utils.py`
@@ -28,7 +29,7 @@
 
 ---
 
-### 2. `7dd1e282` — **[Doc][Misc] Update translations and documentation links (#8942)**
+### 2. `7dd1e282` — (Doc) Update translations and documentation links (#8942)
 
 **变更文件（34 files, +110/-152）**：文档翻译和链接更新。
 
@@ -36,7 +37,7 @@
 
 ---
 
-### 3. `0b8aa91d` — **[CI] fix nightly MiniMax-M2.5-w8a8 (#8957)**
+### 3. `0b8aa91d` — (CI) fix nightly MiniMax-M2.5-w8a8 (#8957)
 
 **变更文件（6 files, +10/-10）**：MiniMax-M2.5 nightly 测试配置修复。
 
@@ -44,7 +45,7 @@
 
 ---
 
-### 4. `5dd158c5` — **[Test][Performance] Refactor Eagle Proposer metadata updates (#8868)**
+### 4. `5dd158c5` — (Test) Refactor Eagle Proposer metadata updates (#8868)
 
 **变更文件（1 file, +106/-0）**：`tests/ut/spec_decode/test_eagle_proposer.py`
 
@@ -52,7 +53,7 @@
 
 ---
 
-### 5. `55c838bd` — **[CI] Increase max-parallel for nightly test (#8946)**
+### 5. `55c838bd` — (CI) Increase max-parallel for nightly test (#8946)
 
 **变更文件（1 file, +2/-2）**：CI 配置 `max-parallel` 参数调整。
 
@@ -60,7 +61,7 @@
 
 ---
 
-### 6. `7fd2cede` — **[Misc][Main2Main] Upgrade vLLM to 0427 (#8899)** ⭐
+### 6. `7fd2cede` — (Misc) Upgrade vLLM to 0427 (#8899) ⭐
 
 **变更文件（26 files, +366/-251）**：Main2Main 升级，适配 vllm upstream `d886c26d4` → `4d51588e2`（199 commits，包含 PR #35782/#35949/#40560/#40671）。
 
@@ -103,15 +104,16 @@
    - MC2 finalize 内部 fixed `reduce_results` 参数
 
 **结论**：✅ **唯一涉推理的 commit。** MC2 核心逻辑（`layer.forward_impl` 的 prepare/apply/finalize）**零变化**。变化全是适配上游 vllm MoE runner 重构的：
-- 方法改名（forward_dispatch → _forward_impl）
-- 类合并（AscendSharedFusedMoE 删除）
-- reduce 逻辑位置变化（vllm-ascend → vllm upstream）
+
+- 方法改名：`forward_dispatch` → `_forward_impl`
+- 类合并：`AscendSharedFusedMoE` 删除
+- reduce 逻辑位置变化：vllm-ascend → vllm upstream
 
 **回归机制**：vllm upstream 的 MoERunner.forward() 重构改变了 forward scope → 某个新增操作（或调用顺序变化）与 cudagraph PIECEWISE capture 交互，导致 0-shared 模型（Qwen3）的 MC2 输出异常。
 
 ---
 
-### 7. `4b3a2af7` — **[P/D][BugFix] Fix for transmit kv cache failure (#8959)**
+### 7. `4b3a2af7` — (P/D) Fix for transmit kv cache failure (#8959)
 
 **变更文件（4 files, +201/-34）**：Mooncake KV transfer 修复。
 
@@ -121,7 +123,7 @@
 
 ---
 
-### 8. `67647403` — **[BugFix][UT] Fix CpuGpuBuffer patch target for Eagle proposer test (#8999)**
+### 8. `67647403` — (BugFix) Fix CpuGpuBuffer patch target for Eagle proposer test (#8999)
 
 **变更文件（1 file, +1/-1）**：Eagle proposer 测试的 CpuGpuBuffer patch 目标修复。Qwen3 A2 无 eagle。
 
@@ -129,7 +131,7 @@
 
 ---
 
-### 9. `d3185d29` — **[Doc] Translated Doc files 2026-05-09 (#9001)**
+### 9. `d3185d29` — (Doc) Translated Doc files 2026-05-09 (#9001)
 
 **变更文件（6 files, +373/-58）**：文档中文翻译。
 
@@ -137,7 +139,7 @@
 
 ---
 
-### 10. `0b240395` — **[CI][Bugfix] Fix the previously un-updated main2main commit (#9010)**
+### 10. `0b240395` — (CI) Bugfix: Fix the previously un-updated main2main commit (#9010)
 
 **变更文件（10 files, +10/-10）**：CI 工作流 main2main commit 引用修复。
 
@@ -145,7 +147,7 @@
 
 ---
 
-### 11. `a53f8346` — **[Test][SpecDecode] Add tests for set_inputs_first_pass (#8781)**
+### 11. `a53f8346` — (Test) Add tests for set_inputs_first_pass (#8781)
 
 **变更文件（2 files, +704/-1）**：SpecDecode 测试代码。Qwen3 A2 无 spec_decode。
 
@@ -153,7 +155,7 @@
 
 ---
 
-### 12. `07f6fec2` — **[BugFix] Revert catlass change (#9014)**
+### 12. `07f6fec2` — (BugFix) Revert catlass change (#9014)
 
 **变更文件（1 file, +1/-1）**：回退 catlass submodule 引用。
 
@@ -161,7 +163,7 @@
 
 ---
 
-### 13. `bd25f2e8` — **[Community] Nominate new maintainer (#8996)**
+### 13. `bd25f2e8` — (Community) Nominate new maintainer (#8996)
 
 **变更文件（1 file, +1/-0）**：CODEOWNERS 文件，maintainer 提名。
 
@@ -169,7 +171,7 @@
 
 ---
 
-### 14. `ca4065f2` — **[Test][SpecDecode] Add prepare_inputs UTs (#8828)**
+### 14. `ca4065f2` — (Test) Add prepare_inputs UTs (#8828)
 
 **变更文件（1 file, +724/-5）**：SpecDecode 测试代码。Qwen3 A2 无 spec_decode。
 
