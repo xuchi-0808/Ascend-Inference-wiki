@@ -1,21 +1,86 @@
 # A00282 — Nightly 环境复现指南
 
 > 2026-06-23 创建。适用于 Qwen3-235B-A22B 多机多卡 GSM8K accuracy 测试的完整环境复现。
-> 原文基于 5/9 nightly 成功版（commit: vllm=`d886c26d4`, vllm-ascend=`68ff5263`）。如需复现 5/10 失败版，将 commit 替换为 `4d51588e2` / `ca4065f2`。
+> 本文版本配套信息均从 GitHub Actions 原始日志逐行提取（`20260509_last_success.log` / `20260510_first_fail.log`），**可用于精确复现**。
 
-## 版本基线
+## 版本配套表（日志实证）
+
+### 核心代码
 
 | 组件 | 5/9 成功版 | 5/10 失败版 |
 |------|-----------|-----------|
-| vllm | `d886c26d4` | `4d51588e2` |
-| vllm-ascend | `68ff5263` | `ca4065f2` |
-| triton-ascend | `3.2.0` | `3.2.0`（未变） |
-| CANN | `8.5.1` | `8.5.1`（未变） |
-| npu-smi | `25.5.2` | `25.5.2`（未变） |
-| AISBench | `3.1.20260429` | `3.1.20260429`（未变） |
-| Python | `3.11.14` | `3.11.14`（未变） |
+| **vllm** | `d886c26d4`（`0.1.dev1+gd886c26d4.empty`）<br>作者: Lxx `<lyfqlx3@gmail.com>`<br>日期: 2026-04-19<br>信息: `[Doc] Fix typos in token_embed pooling documentation (#40266)` | `4d51588e2`（`0.1.dev1+g4d51588e2.empty`）<br>作者: Yifan Qiao `<yifanqiao@inferact.ai>`<br>日期: 2026-04-26<br>信息: `[Feat] DeepSeek V4 Rebased (#40860)` |
+| **vllm-ascend** | `68ff5263`（`0.19.1rc2.dev28+g68ff52636`）<br>作者: guanguan0308<br>日期: 2026-05-08<br>信息: `[BugFix] xmask feature for dispatch_ffn_combine operator (#8789)` | `ca4065f2`（`0.19.1rc2.dev42+gca4065f2e`）<br>日期: 2026-05-09 |
 
-## 路径 A：自建镜像（完全原版，推荐）
+### Ascend 底层栈（5/9 ↔ 5/10 完全一致）
+
+| 层级 | 组件 | 版本 |
+|------|------|------|
+| **CANN Toolkit** | package | `Ascend-cann-toolkit` |
+| | 版本号 | `8.5.1` |
+| | innerversion | `V100R001C25SPC002B220` |
+| | 兼容最低 | `V100R001C15` |
+| | 安装路径 | `/usr/local/Ascend/cann-8.5.1` |
+| **NPU 驱动** | npu-smi | `25.5.2` |
+| | NPU 型号 | `910B3` |
+| **Triton** | triton-ascend | `3.2.0`<br>来源: `https://gitcode.com/Ascend/triton-ascend/`<br>位置: `/usr/local/python3.11.14/lib/python3.11/site-packages` |
+| **bishengir** | bishengir-compile | 由 CANN 8.5.1 安装<br>路径: `/usr/local/Ascend/cann-8.5.1/tools/bishengir/bin/bishengir-compile` |
+
+### Python 运行环境（5/9 ↔ 5/10 完全一致）
+
+| 组件 | 版本 | 备注 |
+|------|------|------|
+| **Python** | `3.11.14` | 路径: `/usr/local/python3.11.14/bin/python3` |
+| **pytest** | `8.4.2` | 插件: asyncio-1.3.0, cov-7.1.0, mock-3.15.1, anyio-4.13.0 |
+| **pluggy** | `1.6.0` | — |
+| **ais_bench** | `3.1.20260429`（对应 tag `v3.1-20260429-master`）<br>位置: `/vllm-workspace/vllm-ascend/benchmark`（可编辑安装） | — |
+
+### 系统与编译器（5/9 ↔ 5/10 完全一致）
+
+| 项 | 值 |
+|----|-----|
+| **OS** | Ubuntu 22.04（aarch64） |
+| **clang** | `15.0.7`（`/usr/bin/clang-15`） |
+| **GCC** | `11`（`/usr/bin/../lib/gcc/aarch64-linux-gnu/11`） |
+| **架构** | `aarch64` |
+| **vllm install 方式** | `VLLM_TARGET_DEVICE="empty"`, editable install (`/vllm-workspace/vllm/`) |
+| **vllm-ascend install 方式** | pip install `-e`, editable (`/vllm-workspace/vllm-ascend/`) |
+
+### vllm serve 关键编译配置（5/9 ↔ 5/10 完全一致）
+
+| 配置项 | 值 |
+|--------|-----|
+| **compilation_mode** | `VLLM_COMPILE: 3`（`VLLM_COMPILE`） |
+| **cudagraph_mode** | `PIECEWISE: 1` |
+| **num_of_warmups** | `1` |
+| **capture_sizes** | `[1, 56, 128]` |
+| **max_capture_size** | `128` |
+| **compile_backend** | `vllm_ascend.compilation.compiler_interface.AscendCompiler` |
+| **inductor: combo_kernels** | `True` |
+| **inductor: size_asserts** | `False`（所有 assert 关） |
+| **pass_config: fuse_norm_quant** | `True` |
+| **pass_config: fuse_act_quant** | `True` |
+| **pass_config: fuse_attn_quant** | `False` |
+| **pass_config: enable_sp** | `False` |
+| **pass_config: fuse_gemm_comms** | `False` |
+| **pass_config: fuse_allreduce_rms** | `False` |
+| **moe_backend** | `auto` |
+| **enable_flashinfer_autotune** | `True` |
+| **ir_op_priority: rms_norm** | `['native']` |
+
+> **结论（日志实证）**：5/9 → 5/10 之间 **只有 vllm + vllm-ascend 代码变化**。CANN/驱动/triton/Python/pytest/系统/编译配置 **全部一致**。回归主体是 vllm upstream `d886c26d4 → 4d51588e2`（199 commits），vllm-ascend 的 `7fd2cede` 只是随之做的适配性改动。
+
+### 完整 diff 命令
+
+```bash
+# vllm：从成功版切到失败版
+git log --oneline d886c26d4..4d51588e2
+
+# vllm-ascend：从成功版切到失败版
+git log --oneline 68ff5263..ca4065f2
+```
+
+## 路径 A：自建镜像（从 CANN base 构建，需可访问 quay.io/SWR）
 
 模拟 CI 的 `schedule_image_build_and_push.yaml` → `_nightly_image_build.yaml` 双层构建流程，用单个 Dockerfile 从 CANN base 直出。
 
