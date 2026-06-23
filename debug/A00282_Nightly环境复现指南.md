@@ -23,10 +23,18 @@
 
 以下 Dockerfile 等价于 CI 的 `quay.io/ascend/vllm-ascend:nightly-main` + `swr.cn-southwest-2:nightly-ci-main-a2` 的组合效果。
 
+> **坑：quay.io 在国内网络可能无法访问**。如果 `FROM quay.io/ascend/cann:...` pull 超时，
+> 改用内网 SWR 的 CANN 镜像（见下方备选 FROM 行）。
+
 ```dockerfile
 # ===== Stage 1: Base image =====
 # 注意：CANN 8.5.1 + Python 3.11 是 5/9 nightly 的 exact match
-# 若镜像仓没有此 tag，回退到 quay.io/ascend/cann:8.5.1-910b-ubuntu22.04-py3.11
+#
+# 备选 FROM（按优先级）：
+# 1. 内网 SWR（推荐，CI 也在用）:
+#    FROM swr.cn-southwest-2.myhuaweicloud.com/base_image/ascend-ci/cann:9.0.0-910b-ubuntu22.04-py3.12
+# 2. quay.io（需外网访问）:
+#    FROM quay.io/ascend/cann:8.5.1-910b-ubuntu22.04-py3.11
 FROM quay.io/ascend/cann:8.5.1-910b-ubuntu22.04-py3.11
 
 ARG PIP_INDEX_URL="https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple"
@@ -114,7 +122,17 @@ CMD ["/bin/bash"]
 
 ### 构建命令
 
+**Dockerfile 不含 `COPY`，不要在大目录下执行！** build context 会被全部打包到 Docker daemon，浪费数分钟传输几十 GB 的空数据。
+
+推荐两种方式避免：
+
+**方式 1：空目录构建（推荐）**
+
 ```bash
+mkdir -p /tmp/docker-build && cd /tmp/docker-build
+# 把 Dockerfile.nightly.repro 移到或复制到此目录
+cp /path/to/Dockerfile.nightly.repro .
+
 IMAGE_TAG="vllm-nightly-repro:5-9-success"
 docker build \
   --network host \
@@ -122,6 +140,18 @@ docker build \
   --build-arg VLLM_ASCEND_COMMIT=68ff5263 \
   -t "$IMAGE_TAG" \
   -f Dockerfile.nightly.repro .
+```
+
+**方式 2：stdin 输入（不需要移动文件）**
+
+```bash
+IMAGE_TAG="vllm-nightly-repro:5-9-success"
+docker build \
+  --network host \
+  --build-arg VLLM_COMMIT=d886c26d4 \
+  --build-arg VLLM_ASCEND_COMMIT=68ff5263 \
+  -t "$IMAGE_TAG" \
+  - < Dockerfile.nightly.repro
 ```
 
 > 构建机是 aarch64（ARM），无需指定 `--platform`。若在 x86 构建 aarch64 镜像，加 `--platform linux/arm64`。
@@ -397,7 +427,47 @@ ais_bench \
 
 ## 常见问题
 
+### Q: quay.io 拉不下来（DNS 超时 / 连接拒绝）？
+
+内网环境通常无法直接访问 quay.io。解决方案：
+
+1. **改用内网 SWR 的 CANN 镜像**（推荐，CI 也用此源）：
+
+   ```dockerfile
+   FROM swr.cn-southwest-2.myhuaweicloud.com/base_image/ascend-ci/cann:9.0.0-910b-ubuntu22.04-py3.12
+   ```
+
+   注意这是 CANN 9.0.0 + Python 3.12（5/9 是 8.5.1 + 3.11），但 vllm/vllm-ascend 兼容。
+
+2. **用已有的 nightly-ci 镜像做 base，只升级组件**（即 Path B）：
+
+   ```dockerfile
+   FROM swr.cn-southwest-2.myhuaweicloud.com/base_image/ascend-ci/vllm-ascend:nightly-ci-main-a2
+   # 然后在此镜像上替换 vllm/vllm-ascend 到目标 commit
+   ```
+
+3. **先手动 pull CANN 镜像到本地，改 Dockerfile 使用本地 tag**：
+
+   ```bash
+   # 找一台能访问 quay.io 的机器 pull 下来，docker save 成 tar，scp 到内网 docker load
+   docker pull quay.io/ascend/cann:8.5.1-910b-ubuntu22.04-py3.11
+   docker save quay.io/ascend/cann:8.5.1-910b-ubuntu22.04-py3.11 | gzip > cann-8.5.1.tar.gz
+   # 内网:
+   docker load < cann-8.5.1.tar.gz
+   # 用本地镜像名
+   docker tag quay.io/ascend/cann:8.5.1-910b-ubuntu22.04-py3.11 cann:8.5.1-local
+   # Dockerfile 中改为 FROM cann:8.5.1-local
+   ```
+
+### Q: docker build 时 build context 很大（几十 GB）？
+
+Dockerfile 不含 `COPY` 指令，不需要任何 build context。**不要在当前目录下执行 `docker build .`**。
+
+做法见上方「构建命令」的两种方式：空目录构建或用 `- < Dockerfile` 的 stdin 模式。
+
 ### Q: CANN 版本不匹配怎么办？
+
+当前 `quay.io/ascend/cann:8.5.1-910b-ubuntu22.04-py3.11` 可能已下架。替代方案：
 
 当前 `quay.io/ascend/cann:8.5.1-910b-ubuntu22.04-py3.11` 可能已下架。替代方案：
 
