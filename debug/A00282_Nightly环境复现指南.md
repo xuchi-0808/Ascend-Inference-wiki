@@ -118,14 +118,13 @@ CMD ["/bin/bash"]
 IMAGE_TAG="vllm-nightly-repro:5-9-success"
 docker build \
   --network host \
-  --platform linux/arm64 \
   --build-arg VLLM_COMMIT=d886c26d4 \
   --build-arg VLLM_ASCEND_COMMIT=68ff5263 \
   -t "$IMAGE_TAG" \
   -f Dockerfile.nightly.repro .
 ```
 
-若构建机是 aarch64，去掉 `--platform linux/arm64`。
+> 构建机是 aarch64（ARM），无需指定 `--platform`。若在 x86 构建 aarch64 镜像，加 `--platform linux/arm64`。
 
 ### 构建耗时预估
 
