@@ -8,7 +8,7 @@
 
 ## 背景
 
-lm-head TP（`lmhead_tensor_parallel_size`）是 vllm-ascend 的 fine-grained TP 特性之一，专门用于 **pure DP（`tensor_parallel_size=1`）+ MoE 模型** 场景。它把 lm_head（最后的 hidden→vocab 输出层）的权重沿 vocab 维切分到多个 rank 上，节省显存与访存，代价是多一次 `all_gather(hidden)` + 一次 `all_to_all(logits)`。
+lm-head TP（`lmhead_tensor_parallel_size`）是 vllm-ascend 的 fine-grained TP 特性之一，用于 **MoE 模型** 场景。它把 lm_head（最后的 hidden→vocab 输出层）的权重沿 vocab 维切分到多个 rank 上，节省显存与访存，代价是多一次 `all_gather(hidden)` + 一次 `all_to_all(logits)`。配置校验要求 MoE 模型且 `lmhead_tp_size` 整除 `dp_size`；代码注释写着 "pure dp scenario"，但实测表明它与 TP 正交、可与 `DP+TP` 叠加（详见下文「正交性」一节）。
 
 本仓库 PR [#11086](https://github.com/vllm-project/vllm-ascend/pull/11086) 把原来通过 monkey-patch 实现的 `GroupCoordinator.all_to_all` 移除，改用 `torch.distributed.all_to_all_single` 直连实现。本文档记录该 PR 之后的完整代码路径，便于后续维护与学习。
 
@@ -48,7 +48,7 @@ if module_tp_size > 0 and data_parallel_size % module_tp_size != 0:
 - **必须是 MoE 模型**（dense 模型会被拦下）
 - **`lmhead_tp_size` 必须整除 `data_parallel_size`**（注意校验的是 DP 维度，不是 TP 维度）
 
-> ⚠️ **当前缺失的校验**：代码没有校验 `tensor_parallel_size == 1`。lm-head TP 在 TP>1 场景下会有语义问题（见下文「TP>1 场景的语义断裂」一节），但配置层并未拦截。
+> 注：代码注释提到 "pure dp scenario"，但**未强制要求 `tensor_parallel_size == 1`**。实测证明 lm-head TP 与 TP 正交、可叠加（见下文「正交性」一节），所以这里不拦 TP>1 是合理的。
 
 ## 通信组创建
 
@@ -206,29 +206,49 @@ if lmhead_tp_enable():
 
 两个分支逻辑相同，仅缩进不同（mrope 分支 20 空格，普通分支 24 空格）。
 
-## TP>1 场景的语义断裂
+## lm-head TP 与 TP 的正交性（DP+TP+lmhead_tp 叠加）
 
-lm-head TP 设计为 **pure DP 场景**（代码注释 `vocab_parallel_embedding.py:278` "pure dp scenario"）。当 `tensor_parallel_size > 1` 时会有语义问题：
+代码注释（`vocab_parallel_embedding.py:278`）写着 "pure dp scenario"，这容易让人误以为 lm-head TP 只能在 `tensor_parallel_size=1` 下使用。**实际并非如此**——lm-head TP 与 TP 是正交的，可以叠加。这一节解释为什么正交，并给出实测验证。
 
-**核心矛盾**：lm-head TP 组里的 rank 来自**不同的 DP 副本**（不同 batch）。在 pure DP 下这是对的——每个 rank 持不同 batch 的 token。但 TP>1 时，同一个 TP 组的 rank（如 rank0 和 rank1）持有**同一个 batch** 的 hidden（经 TP all_reduce 对齐），而它们的 lm-head TP 组却不同：
+### 为什么正交：两步通信的净效果
+
+容易让人误判的点在于 `_get_logits_lmheadtp` 的第一步 `all_gather(hidden)`：它把 lm-head TP 组内各 rank 的 hidden 拼起来，看起来"把不同 batch 的 token 混在一起了"。但**必须结合紧随其后的 `all_to_all(logits)` 一起看**，净效果是：
 
 ```text
-DP4 + TP2 + lmhead_tp4，8 卡：
-  rank_grid (dp=4, tp=2):
-          tp0   tp1
-    dp0  [ 0,    1 ]   ← rank0/1 同一 TP 组，同一 batch
-    dp1  [ 2,    3 ]
-    dp2  [ 4,    5 ]
-    dp3  [ 6,    7 ]
-
-  lmhead_tp4 分组：
-    {0,2,4,6}  ← 全是 tp0 列
-    {1,3,5,7}  ← 全是 tp1 列
+rank0 持 [N, V/P]  (batch A × 自己的 vocab 切片)
+   │ all_gather(hidden) on lm-head TP group
+   ▼ [P·N, V/P]   ← P 个 batch (A,B,...) × vocab 切片（中间过渡态）
+   │ lmhead_all_to_all: dim0 切 P 份（按 batch 切回） + dim-1 拼 P 份（拼满 vocab）
+   ▼ [N, V]        ← batch A × 全 vocab  ← 回到自己负责的 batch
 ```
 
-`_get_logits_lmheadtp` 的 `all_gather(hidden)` 在 lm-head TP 组 `{0,2,4,6}` 内做，拼起来的是 4 个不同 batch 的 hidden——而 rank1 不在这个组里。这导致 rank0 和 rank1（同一 TP 组）算出的 logits 对应的 batch 集合不一致，后续 TP 采样对不上。
+`all_gather` 把 token 维放大（收 P 个 batch），`all_to_all` 又把 token 维缩小（每 rank 留 1 个 batch）+ vocab 维放大（拼满）。**净效果就是 `[N, V/P] → [N, V]`，每个 rank 最终拿到的还是自己那个 batch 的完整 logits。** 整条通信在 lm-head TP 组内闭环，与 TP 组互不干扰。
 
-**结论**：当前代码不拦 TP>1，但实际跑会有正确性问题。这是一个潜在的配置校验改进点。
+> ⚠️ **教训**：分析张量通信语义时不能只看链路的一段。本文档的早期版本只看了 `all_gather` 就断言"TP>1 会语义断裂"，是错的——必须看 `all_gather + all_to_all` 的完整闭环。
+
+### 实测验证（2026-06-29）
+
+在 S3（A3，16 chip）上用 Qwen3-30B-A3B（MoE，bf16，`enforce_eager`）做了精度对比：
+
+| 组 | 配置 | 卡数 |
+|---|---|---|
+| 对照 | DP4 + TP2（不开 lmhead_tp） | 8 |
+| 实验 | DP4 + TP2 + lmhead_tp2 | 8 |
+
+同一批 5 个 prompt，`temperature=0`（确定性输出），对比两组输出文本：
+
+```text
+[0] ✓ The capital of China is
+[1] ✓ Write a Python function to compute fibonacci:
+[2] ✓ Explain what tensor parallelism is in one sentence.
+[3] ✓ Translate to English: 今天天气真好
+[4] ✓ 1+1=
+VERDICT: ALL MATCH — lmhead_tp + TP 精度无损，正交性成立 ✓
+```
+
+**5/5 逐字符完全一致**。证明 `DP + TP + lmhead_tp` 叠加后精度无损，lm-head TP 与 TP 正交。
+
+> 实验踩坑：A3 机器多卡 graph capture 会报 `no notify resource`（错误码 207009，notify 资源耗尽）。精度验证场景用 `--enforce-eager` 绕过，且 eager 启动反而更快（~110s vs graph 模式 ~10min）。
 
 ## 追踪建议
 
@@ -238,6 +258,6 @@ DP4 + TP2 + lmhead_tp4，8 卡：
 
 1. `parallel_state.py:117-129` —— 分组怎么从 DP 维切（理解 lm-head TP 与 DP/TP 的关系）
 2. `vocab_parallel_embedding.py:72` —— `self.tp_size` 被重定义（理解权重切分逻辑）
-3. `vocab_parallel_embedding.py:299` —— `all_gather` 在哪个组做（理解 TP>1 时为什么语义断裂）
+3. `vocab_parallel_embedding.py:299-303` —— `all_gather(hidden)` + `all_to_all(logits)` 的完整闭环（理解为什么与 TP 正交，务必看两步合起来的净效果）
 
 **第三遍（对比学习）**：对比 `_get_logits_lmheadtp`（L292）与 `_get_logits_normal`（L313），看 lm-head TP 路径多了哪些通信、为什么。
