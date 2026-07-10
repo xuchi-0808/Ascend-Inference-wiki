@@ -1,6 +1,25 @@
 # vllm-ascend 从源码编译安装
 
-> 本文档指导用户在 Ascend NPU 环境下从源码编译安装 vllm 和 vllm-ascend。涵盖 **华为内网环境**（需配置内部 PyPI 源）和 **外网环境** 两种场景，用户可根据实际网络条件选择对应步骤。安装前请确保已准备好 CANN、torch_npu 等依赖。
+> 本文档指导用户在 **Docker 容器** 中从源码编译安装 vllm 和 vllm-ascend。涵盖绿区（华为内网）、蓝区（受限外网）、外网三种网络环境。裸机环境可参考但未经验证。
+>
+> 安装前请确保容器内已准备好 CANN、torch_npu 等依赖。
+
+## 0. vllm-ascend 与 vllm 版本配套
+
+vllm-ascend 依赖特定版本的 vllm，**推荐安装配套版本**，否则可能出现接口不兼容。查找方法：
+
+- **新版**（2026-06-10 之后）：读 `.github/vllm-release-tag.commit`，内容为 vllm 的 git tag
+- **旧版**（2026-06-10 之前）：读 `docs/source/conf.py`，在 `myst_substitutions` 字典里找 `main_vllm_commit`（精确 hash）和 `main_vllm_tag`
+
+```bash
+# 新版
+cat .github/vllm-release-tag.commit
+
+# 旧版
+grep -E 'main_vllm_(commit|tag)' docs/source/conf.py
+```
+
+> 官方 Docker 镜像通常已预装匹配版本，无需手动查找。仅在源码安装或 bisect 切换版本时需要。
 
 ## 仓库地址
 
@@ -22,6 +41,9 @@ cd vllm
 ```
 
 ```bash
+# Docker 镜像通常预装了 vllm，先卸载再装指定版本
+pip uninstall vllm -y
+
 VLLM_TARGET_DEVICE=empty pip install -v -e . --no-build-isolation
 ```
 
@@ -31,9 +53,9 @@ VLLM_TARGET_DEVICE=empty pip install -v -e . --no-build-isolation
 
 ## 2. 安装 [vllm-ascend](https://github.com/vllm-project/vllm-ascend)
 
-### 内网环境
+### 绿区环境（内网服务器）
 
-无法访问 PyPI 时需要配置内部 triton 源：
+无法访问 PyPI，使用内部 triton 源：
 
 ```bash
 git clone <vllm-ascend-repo> vllm-ascend
@@ -52,7 +74,28 @@ pip install -v -e . \
   --extra-index-url https://triton-ascend.osinfra.cn/pypi/simple
 ```
 
-### 外网环境
+### 蓝区环境（受限外网）
+
+无法访问官方 PyPI，但可访问阿里云镜像：
+
+```bash
+git clone <vllm-ascend-repo> vllm-ascend
+cd vllm-ascend
+```
+
+```bash
+pip install -v -r requirements.txt \
+  -i https://mirrors.aliyun.com/pypi/simple/ \
+  --trusted-host mirrors.aliyun.com
+pip install -v -e . \
+  --no-build-isolation \
+  -i https://mirrors.aliyun.com/pypi/simple/ \
+  --trusted-host mirrors.aliyun.com
+```
+
+> 其他镜像（华为云、清华）经测试存在 aarch64 包缺失或 403 问题，不推荐。
+
+### 外网环境（可以访问全球互联网）
 
 ```bash
 git clone <vllm-ascend-repo> vllm-ascend
@@ -120,6 +163,31 @@ csrc/build_aclnn.sh: line 84: ./output/CANN-custom_ops*.run: No such file or dir
 ```bash
 rm -rf csrc/build csrc/output
 pip install -v -e . --no-build-isolation
+```
+
+### Docker 镜像预装 vllm 导致安装失败
+
+现象：`pip install -e .` 后 import 的仍是旧版本，或安装过程报版本冲突。
+
+原因：Docker 镜像通常预装了 vllm，pip 认为已满足依赖而跳过安装。
+
+解决：先卸载再装。
+
+```bash
+pip uninstall vllm -y
+VLLM_TARGET_DEVICE=empty pip install -v -e . --no-build-isolation
+```
+
+### 缺少 `setuptools-rust`
+
+现象：编译时报错找不到 rust 工具链。
+
+原因：部分 Docker 镜像未预装 `setuptools-rust`。
+
+解决：
+
+```bash
+pip install setuptools-rust
 ```
 
 ### `HAS_TRITON=False` 导致自定义算子未注册
