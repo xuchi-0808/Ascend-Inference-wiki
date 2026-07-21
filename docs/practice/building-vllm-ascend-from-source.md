@@ -41,8 +41,8 @@ cd vllm
 ```
 
 ```bash
-# Docker 镜像通常预装了 vllm，先卸载再装指定版本
-pip uninstall vllm -y
+# Docker 镜像通常预装了 vllm 和 vllm-ascend，先卸载再装指定版本
+pip uninstall vllm vllm-ascend -y
 
 VLLM_TARGET_DEVICE=empty pip install -v -e . --no-build-isolation
 ```
