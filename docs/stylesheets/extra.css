@@ -15,9 +15,9 @@
 
 /* ---------- 配色：亮色（暖奶油白 + 珊瑚橙）---------- */
 [data-md-color-scheme="default"] {
-  --md-primary-fg-color:              #FBF9F3;
-  --md-primary-fg-color--light:       #F4F1EA;
-  --md-primary-fg-color--dark:        #ECE8DF;
+  --md-primary-fg-color:              #F4F1EA;
+  --md-primary-fg-color--light:       #ECE8DF;
+  --md-primary-fg-color--dark:        #DDD7CB;
   --md-primary-bg-color:              #1A1A1A;
   --md-primary-bg-color--light:       #4A4843;
 
@@ -35,7 +35,7 @@
   --md-typeset-color:                 #1A1A1A;
   --md-typeset-a-color:               #D97757;
 
-  --md-code-bg-color:                 #ECE8DF;
+  --md-code-bg-color:                 #EDE9E2;
   --md-code-fg-color:                 #2A2926;
   --md-code-hl-color:                 rgba(217, 119, 87, 0.16);
 
@@ -112,10 +112,28 @@ body,
   color: #000000;
 }
 
+/* 左侧栏 / 右侧栏 / header 站点名 统一用标题字体（Lora）*/
+.md-nav,
+.md-toc,
+.md-tabs,
+.md-header__title,
+.md-header__topic,
+.md-header__ellipsis {
+  font-family: var(--md-heading-font-family);
+}
+
 /* ---------- Header 分隔 ---------- */
 .md-header {
   box-shadow: 0 1px 0 rgba(26, 26, 26, 0.08);
   background: var(--md-primary-fg-color);
+}
+
+/* 隐藏 header logo 占位，站点名顶左对齐 */
+.md-header__button.md-logo {
+  display: none;
+}
+.md-header__title {
+  margin-left: 0;
 }
 [data-md-color-scheme="slate"] .md-header {
   box-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
@@ -127,6 +145,14 @@ body,
 }
 [data-md-color-scheme="default"] .md-search__input::placeholder {
   color: #8A8780;
+}
+
+/* 搜索框背景与代码块同色（覆盖默认半透明黑，避免 header 内突兀深色）*/
+[data-md-color-scheme="default"] .md-search__form {
+  background-color: #EDE9E2;
+}
+[data-md-color-scheme="default"] .md-search__form:hover {
+  background-color: #E5E1DA;
 }
 
 /* ---------- 链接 hover ---------- */
