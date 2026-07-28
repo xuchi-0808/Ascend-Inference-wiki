@@ -13,29 +13,37 @@ theme:
   name: material
   language: zh
   custom_dir: overrides
+  favicon: assets/favicon.svg
+  logo: assets/logo.svg
   features:
     - navigation.tabs
+    - navigation.tabs.sticky
     - navigation.sections
     - navigation.indexes
     - navigation.top
     - navigation.footer
+    - navigation.tracking
+    - navigation.prune
+    - toc.follow
     - search.suggest
     - search.highlight
     - content.code.copy
+    - content.code.annotate
+    - content.tabs.link
     - content.action.edit
     - content.action.view
   palette:
     - media: "(prefers-color-scheme: light)"
       scheme: default
-      primary: indigo
-      accent: indigo
+      primary: custom
+      accent: custom
       toggle:
         icon: material/brightness-7
         name: 切换暗色模式
     - media: "(prefers-color-scheme: dark)"
       scheme: slate
-      primary: indigo
-      accent: indigo
+      primary: custom
+      accent: custom
       toggle:
         icon: material/brightness-4
         name: 切换亮色模式
@@ -72,6 +80,10 @@ plugins:
         - en
         - ja
   - meta
+  - git-revision-date-localized:
+      enable_creation_date: true
+      type: date
+      timezone: Asia/Shanghai
 
 nav:
   - 首页: index.md
@@ -96,5 +108,8 @@ extra:
   social:
     - icon: fontawesome/brands/github
       link: https://github.com/xuchi-0808/Ascend-Inference-wiki
+
+extra_css:
+  - stylesheets/extra.css
 
 copyright: Copyright &copy; 推理开发部
