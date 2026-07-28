@@ -1,0 +1,164 @@
+/* ====================================================================
+   Ascend Inference Wiki - Anthropic 风格主题
+   暖色纸感 + Claude 橙 + 编辑式克制
+   ==================================================================== */
+
+/* ---------- 配色：亮色（Pampas 暖白 + Claude 橙）---------- */
+[data-md-color-scheme="default"] {
+  --md-primary-fg-color:              #F4F3EE;
+  --md-primary-fg-color--light:       #EDEBE3;
+  --md-primary-fg-color--dark:        #D9D5C9;
+  --md-primary-bg-color:              #141413;
+  --md-primary-bg-color--light:       #4A4843;
+
+  --md-accent-fg-color:               #D97757;
+  --md-accent-fg-color--transparent:  rgba(217, 119, 87, 0.10);
+
+  --md-default-bg-color:              #F4F3EE;
+  --md-default-fg-color:              #141413;
+  --md-default-fg-color--light:       #5C5A54;
+  --md-default-fg-color--lighter:     #8A8780;
+  --md-default-fg-color--lightest:    #BDB9AE;
+
+  --md-text-color:                    #141413;
+  --md-text-color--light:             #5C5A54;
+  --md-typeset-color:                 #141413;
+  --md-typeset-a-color:               #D97757;
+
+  --md-code-bg-color:                 #EDEBE3;
+  --md-code-fg-color:                 #2A2926;
+  --md-code-hl-color:                 rgba(217, 119, 87, 0.15);
+
+  --md-footer-bg-color:               #141413;
+  --md-footer-fg-color:               #F4F3EE;
+}
+
+/* ---------- 配色：暗色（暖深黑）---------- */
+[data-md-color-scheme="slate"] {
+  --md-hue:                           25deg;
+
+  --md-primary-fg-color:              #1F1E1C;
+  --md-primary-fg-color--light:       #2A2926;
+  --md-primary-fg-color--dark:        #141413;
+  --md-primary-bg-color:              #F4F3EE;
+  --md-primary-bg-color--light:       #BDB9AE;
+
+  --md-accent-fg-color:               #E0906F;
+  --md-accent-fg-color--transparent:  rgba(224, 144, 111, 0.14);
+
+  --md-default-bg-color:              #1F1E1C;
+  --md-default-fg-color:              #F4F3EE;
+  --md-default-fg-color--light:       #BDB9AE;
+  --md-default-fg-color--lighter:     #8A8780;
+  --md-default-fg-color--lightest:    #5C5A54;
+
+  --md-text-color:                    #E8E6E0;
+  --md-text-color--light:             #BDB9AE;
+  --md-typeset-color:                 #E8E6E0;
+  --md-typeset-a-color:               #E0906F;
+
+  --md-code-bg-color:                 #2A2926;
+  --md-code-fg-color:                 #F4F3EE;
+  --md-code-hl-color:                 rgba(224, 144, 111, 0.20);
+
+  --md-footer-bg-color:               #141413;
+  --md-footer-fg-color:               #F4F3EE;
+}
+
+/* ---------- 排版质感 ---------- */
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  letter-spacing: 0.01em;
+}
+
+.md-typeset h1 {
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+/* ---------- Header 分隔（cream header 需底边）---------- */
+.md-header {
+  box-shadow: 0 1px 0 rgba(20, 20, 19, 0.10);
+}
+[data-md-color-scheme="slate"] .md-header {
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
+}
+[data-md-color-scheme="default"] .md-header__title,
+[data-md-color-scheme="default"] .md-header__button {
+  color: #141413;
+}
+[data-md-color-scheme="default"] .md-search__input::placeholder {
+  color: #8A8780;
+}
+
+/* ---------- 链接 hover ---------- */
+.md-typeset a:focus,
+.md-typeset a:hover {
+  color: var(--md-accent-fg-color);
+}
+
+/* ---------- 圆角克制（Anthropic 偏方正）---------- */
+.md-typeset .admonition,
+.md-typeset details {
+  border-radius: 6px;
+}
+.md-typeset code,
+.md-typeset kbd {
+  border-radius: 4px;
+}
+.md-typeset pre > code {
+  border-radius: 6px;
+}
+.md-button {
+  border-radius: 6px;
+}
+
+/* ---------- 卡片（首页 grid cards）---------- */
+.md-typeset .grid.cards > ul > li,
+.md-typeset .grid > .card {
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-radius: 8px;
+  transition: border-color .2s ease, box-shadow .2s ease, transform .2s ease;
+}
+.md-typeset .grid.cards > ul > li:hover,
+.md-typeset .grid > .card:hover {
+  border-color: var(--md-accent-fg-color);
+  box-shadow: 0 6px 20px rgba(217, 119, 87, 0.12);
+  transform: translateY(-2px);
+}
+
+/* ---------- 滚动条 ---------- */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--md-default-fg-color--lighter) transparent;
+}
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: var(--md-default-fg-color--lighter);
+  border-radius: 5px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--md-accent-fg-color);
+}
+
+/* ---------- 表格 ---------- */
+.md-typeset table:not([class]) {
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 0 0 1px var(--md-default-fg-color--lightest);
+}
+
+/* ---------- 侧边栏选中态用 Claude 橙 ---------- */
+.md-nav__item--active > .md-nav__link {
+  color: var(--md-accent-fg-color);
+}
+
+/* ---------- 选择高亮 ---------- */
+::selection {
+  background: rgba(217, 119, 87, 0.25);
+}
+[data-md-color-scheme="slate"] ::selection {
+  background: rgba(224, 144, 111, 0.30);
+}
