@@ -1,92 +1,129 @@
 /* ====================================================================
-   Ascend Inference Wiki - Anthropic 风格主题
-   暖色纸感 + Claude 橙 + 编辑式克制
+   Ascend Inference Wiki
+   暖奶油白 #F4F1EA + Claude 珊瑚橙 #D97757
+   标题 Lora + 正文 Inter + 12px 统一圆角 + 4px 间距体系
    ==================================================================== */
 
-/* ---------- 配色：亮色（Pampas 暖白 + Claude 橙）---------- */
+@import url('https://cdn.jsdelivr.net/npm/@fontsource-variable/lora/index.css');
+@import url('https://cdn.jsdelivr.net/npm/@fontsource-variable/inter/index.css');
+
+:root {
+  --md-text-font-family: "Inter Variable", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, "PingFang SC", "Microsoft YaHei", sans-serif;
+  --md-code-font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  --md-heading-font-family: "Lora Variable", "Lora", Georgia, "Source Han Serif SC", "Noto Serif SC", "Songti SC", serif;
+}
+
+/* ---------- 配色：亮色（暖奶油白 + 珊瑚橙）---------- */
 [data-md-color-scheme="default"] {
-  --md-primary-fg-color:              #F4F3EE;
-  --md-primary-fg-color--light:       #EDEBE3;
-  --md-primary-fg-color--dark:        #D9D5C9;
-  --md-primary-bg-color:              #141413;
+  --md-primary-fg-color:              #FBF9F3;
+  --md-primary-fg-color--light:       #F4F1EA;
+  --md-primary-fg-color--dark:        #ECE8DF;
+  --md-primary-bg-color:              #1A1A1A;
   --md-primary-bg-color--light:       #4A4843;
 
   --md-accent-fg-color:               #D97757;
   --md-accent-fg-color--transparent:  rgba(217, 119, 87, 0.10);
 
-  --md-default-bg-color:              #F4F3EE;
-  --md-default-fg-color:              #141413;
+  --md-default-bg-color:              #F4F1EA;
+  --md-default-fg-color:              #1A1A1A;
   --md-default-fg-color--light:       #5C5A54;
   --md-default-fg-color--lighter:     #8A8780;
-  --md-default-fg-color--lightest:    #BDB9AE;
+  --md-default-fg-color--lightest:    #C9C4B8;
 
-  --md-text-color:                    #141413;
+  --md-text-color:                    #1A1A1A;
   --md-text-color--light:             #5C5A54;
-  --md-typeset-color:                 #141413;
+  --md-typeset-color:                 #1A1A1A;
   --md-typeset-a-color:               #D97757;
 
-  --md-code-bg-color:                 #EDEBE3;
+  --md-code-bg-color:                 #ECE8DF;
   --md-code-fg-color:                 #2A2926;
-  --md-code-hl-color:                 rgba(217, 119, 87, 0.15);
+  --md-code-hl-color:                 rgba(217, 119, 87, 0.16);
 
-  --md-footer-bg-color:               #141413;
-  --md-footer-fg-color:               #F4F3EE;
+  --md-footer-bg-color:               #1A1A1A;
+  --md-footer-fg-color:               #F4F1EA;
 }
 
-/* ---------- 配色：暗色（暖深黑）---------- */
+/* ---------- 配色：暗色 ---------- */
 [data-md-color-scheme="slate"] {
   --md-hue:                           25deg;
 
-  --md-primary-fg-color:              #1F1E1C;
-  --md-primary-fg-color--light:       #2A2926;
-  --md-primary-fg-color--dark:        #141413;
-  --md-primary-bg-color:              #F4F3EE;
-  --md-primary-bg-color--light:       #BDB9AE;
+  --md-primary-fg-color:              #1A1815;
+  --md-primary-fg-color--light:       #26231E;
+  --md-primary-fg-color--dark:        #0E0D0B;
+  --md-primary-bg-color:              #F4F1EA;
+  --md-primary-bg-color--light:       #C9C4B8;
 
   --md-accent-fg-color:               #E0906F;
   --md-accent-fg-color--transparent:  rgba(224, 144, 111, 0.14);
 
-  --md-default-bg-color:              #1F1E1C;
-  --md-default-fg-color:              #F4F3EE;
-  --md-default-fg-color--light:       #BDB9AE;
+  --md-default-bg-color:              #1A1815;
+  --md-default-fg-color:              #F4F1EA;
+  --md-default-fg-color--light:       #C9C4B8;
   --md-default-fg-color--lighter:     #8A8780;
-  --md-default-fg-color--lightest:    #5C5A54;
+  --md-default-fg-color--lightest:    #4A4843;
 
-  --md-text-color:                    #E8E6E0;
-  --md-text-color--light:             #BDB9AE;
-  --md-typeset-color:                 #E8E6E0;
+  --md-text-color:                    #E8E4DB;
+  --md-text-color--light:             #C9C4B8;
+  --md-typeset-color:                 #E8E4DB;
   --md-typeset-a-color:               #E0906F;
 
-  --md-code-bg-color:                 #2A2926;
-  --md-code-fg-color:                 #F4F3EE;
+  --md-code-bg-color:                 #26231E;
+  --md-code-fg-color:                 #F4F1EA;
   --md-code-hl-color:                 rgba(224, 144, 111, 0.20);
 
-  --md-footer-bg-color:               #141413;
-  --md-footer-fg-color:               #F4F3EE;
+  --md-footer-bg-color:               #0E0D0B;
+  --md-footer-fg-color:               #F4F1EA;
 }
 
-/* ---------- 排版质感 ---------- */
-body {
+/* ---------- 字体应用 ---------- */
+body,
+.md-typeset {
+  font-family: var(--md-text-font-family);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  letter-spacing: 0.01em;
+  letter-spacing: -0.011em;
+  text-rendering: optimizeLegibility;
 }
 
+.md-typeset pre > code,
+.md-typeset code,
+.md-typeset kbd {
+  font-family: var(--md-code-font-family);
+}
+
+/* 标题：Lora 编辑衬线（Anthropic Tiempos 替代，lining figures 数字整齐）*/
+.md-typeset h1,
+.md-typeset h2,
+.md-typeset h3,
+.md-typeset h4,
+.md-typeset h5,
+.md-typeset h6 {
+  font-family: var(--md-heading-font-family);
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: 1.2;
+}
 .md-typeset h1 {
-  font-weight: 700;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.01em;
 }
 
-/* ---------- Header 分隔（cream header 需底边）---------- */
+/* 文档大标题亮色下强制纯黑 */
+[data-md-color-scheme="default"] .md-typeset h1 {
+  color: #000000;
+}
+
+/* ---------- Header 分隔 ---------- */
 .md-header {
-  box-shadow: 0 1px 0 rgba(20, 20, 19, 0.10);
+  box-shadow: 0 1px 0 rgba(26, 26, 26, 0.08);
+  background: var(--md-primary-fg-color);
 }
 [data-md-color-scheme="slate"] .md-header {
   box-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
 }
 [data-md-color-scheme="default"] .md-header__title,
-[data-md-color-scheme="default"] .md-header__button {
-  color: #141413;
+[data-md-color-scheme="default"] .md-header__button,
+[data-md-color-scheme="default"] .md-header__subject {
+  color: #1A1A1A;
 }
 [data-md-color-scheme="default"] .md-search__input::placeholder {
   color: #8A8780;
@@ -98,34 +135,38 @@ body {
   color: var(--md-accent-fg-color);
 }
 
-/* ---------- 圆角克制（Anthropic 偏方正）---------- */
+/* ---------- 12px 统一圆角 ---------- */
 .md-typeset .admonition,
 .md-typeset details {
-  border-radius: 6px;
-}
-.md-typeset code,
-.md-typeset kbd {
-  border-radius: 4px;
+  border-radius: 12px;
 }
 .md-typeset pre > code {
-  border-radius: 6px;
+  border-radius: 12px;
 }
 .md-button {
-  border-radius: 6px;
+  border-radius: 12px;
 }
-
-/* ---------- 卡片（首页 grid cards）---------- */
 .md-typeset .grid.cards > ul > li,
 .md-typeset .grid > .card {
   border: 1px solid var(--md-default-fg-color--lightest);
-  border-radius: 8px;
+  border-radius: 12px;
   transition: border-color .2s ease, box-shadow .2s ease, transform .2s ease;
 }
 .md-typeset .grid.cards > ul > li:hover,
 .md-typeset .grid > .card:hover {
   border-color: var(--md-accent-fg-color);
-  box-shadow: 0 6px 20px rgba(217, 119, 87, 0.12);
+  box-shadow: 0 8px 24px rgba(217, 119, 87, 0.16);
   transform: translateY(-2px);
+}
+.md-typeset table:not([class]) {
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 0 0 1px var(--md-default-fg-color--lightest);
+}
+/* inline code 较短，6px 更协调 */
+.md-typeset code,
+.md-typeset kbd {
+  border-radius: 6px;
 }
 
 /* ---------- 滚动条 ---------- */
@@ -143,21 +184,14 @@ body {
   background: var(--md-accent-fg-color);
 }
 
-/* ---------- 表格 ---------- */
-.md-typeset table:not([class]) {
-  border-radius: 6px;
-  overflow: hidden;
-  box-shadow: 0 0 0 1px var(--md-default-fg-color--lightest);
-}
-
-/* ---------- 侧边栏选中态用 Claude 橙 ---------- */
+/* ---------- 侧边栏选中态 ---------- */
 .md-nav__item--active > .md-nav__link {
   color: var(--md-accent-fg-color);
 }
 
 /* ---------- 选择高亮 ---------- */
 ::selection {
-  background: rgba(217, 119, 87, 0.25);
+  background: rgba(217, 119, 87, 0.24);
 }
 [data-md-color-scheme="slate"] ::selection {
   background: rgba(224, 144, 111, 0.30);
