@@ -13,8 +13,7 @@ theme:
   name: material
   language: zh
   custom_dir: overrides
-  favicon: assets/favicon.svg
-  logo: assets/logo.svg
+  favicon: assets/ascend-favicon.ico
   features:
     - navigation.tabs
     - navigation.tabs.sticky
