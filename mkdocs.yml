@@ -1,0 +1,100 @@
+site_name: Ascend Inference Wiki
+site_description: 昇腾推理开发经验 wiki
+site_author: 推理开发部
+site_url: !ENV [READTHEDOCS_CANONICAL_URL, "https://ascend-inference-wiki.readthedocs.io/"]
+
+repo_url: https://github.com/xuchi-0808/Ascend-Inference-wiki
+repo_name: xuchi-0808/Ascend-Inference-wiki
+edit_uri: edit/master/docs/
+
+docs_dir: docs
+
+theme:
+  name: material
+  language: zh
+  custom_dir: overrides
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.indexes
+    - navigation.top
+    - navigation.footer
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+    - content.action.edit
+    - content.action.view
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: 切换暗色模式
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: 切换亮色模式
+  icon:
+    repo: fontawesome/brands/github
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - def_list
+  - md_in_html
+  - footnotes
+  - tables
+  - toc:
+      permalink: true
+      toc_depth: 3
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - pymdownx.details
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.caret
+  - pymdownx.mark
+  - pymdownx.tilde
+
+plugins:
+  - search:
+      lang:
+        - en
+        - ja
+  - meta
+
+nav:
+  - 首页: index.md
+  - 调测经验:
+      - debug/environment-troubleshooting-guide.md
+      - debug/qwen3-235b-dual-node-accuracy-regression.md
+      - debug/qwen3-235b-manual-launch.md
+      - debug/a00282-qwen3-235b-concurrent-accuracy-regression-postmortem.md
+      - debug/a00296-dsv31-dp32-mtp-lmheadtp-allgather-hang-postmortem.md
+      - debug/a00301-qwen3-235b-pd-separation-kv-transfer-precision-postmortem.md
+  - 设计方案:
+      - design/dsv32-dp-o-matrix-column-splitting.md
+      - design/dsv4-mla-o-matrix-module-level-tp.md
+      - design/lmhead-tp-code-tracing.md
+      - design/vllm-ascend-netloader-quantization-loading-analysis.md
+  - 实践指南:
+      - practice/building-vllm-ascend-from-source.md
+      - practice/dual-node-test-manual-launch-guide.md
+      - practice/extracting-test-procedure-from-ci-logs.md
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/xuchi-0808/Ascend-Inference-wiki
+
+copyright: Copyright &copy; 推理开发部
