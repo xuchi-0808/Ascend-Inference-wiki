@@ -1,13 +1,12 @@
 # Ascend-Inference-wiki
 
-个人工作知识库——记录华为昇腾推理开发部期间的重要产出文档。
+个人工作知识库——记录昇腾推理开发部期间的重要产出文档。
 
 ## Background
 
 专注于 **Ascend NPU 大模型推理引擎** 的开发与适配工作，主要涉及：
 
 - **vllm-ascend**：vLLM 推理框架在昇腾平台的移植与适配
-- **MindIE-LLM**：华为大模型推理引擎，包括特性开发、性能优化、问题定位等
 - **ATB** (Ascend Tensor Builder)：昇腾算子库相关开发
 - **msmodelslim**：模型压缩 / 瘦身工具
 - **性能 Benchmark**：推理性能测试与调优
