@@ -3,3 +3,7 @@
 
 # MkDocs 构建产物
 site/
+
+# AI 助手配置（仅本地，不入库）
+/CLAUDE.md
+/AGENTS.md
