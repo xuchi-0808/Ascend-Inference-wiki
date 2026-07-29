@@ -222,3 +222,38 @@ body,
 [data-md-color-scheme="slate"] ::selection {
   background: rgba(224, 144, 111, 0.30);
 }
+
+/* ---------- 文档作者 + 最后修改人（标题下、正文前）---------- */
+.doc-authors {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: -0.3rem 0 1.2rem;
+  font-size: 0.64rem;
+  color: var(--md-default-fg-color--light);
+  flex-wrap: wrap;
+}
+.doc-authors__label {
+  color: var(--md-default-fg-color--lighter);
+}
+.doc-authors__avatar img {
+  width: 21px;
+  height: 21px;
+  border-radius: 50%;
+  vertical-align: middle;
+  border: 1px solid var(--md-default-fg-color--lightest);
+  transition: border-color .2s;
+}
+.doc-authors__avatar:hover img {
+  border-color: var(--md-accent-fg-color);
+}
+.doc-authors__name {
+  font-weight: 500;
+  color: var(--md-default-fg-color--light);
+}
+.doc-authors__sep {
+  color: var(--md-default-fg-color--lightest);
+}
+.doc-authors__date {
+  margin-left: 2px;
+}

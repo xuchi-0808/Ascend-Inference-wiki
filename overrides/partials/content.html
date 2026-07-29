@@ -1,0 +1,34 @@
+{% include "partials/tags.html" %}
+{% include "partials/actions.html" %}
+{% if "<h1" not in page.content %}
+  <h1>{{ page.title | d(config.site_name, true)}}</h1>
+{% endif %}
+
+{% if page_first_author or page_last_author %}
+<div class="doc-authors">
+  {% if page_first_author and page_first_author.avatar %}
+  <span class="doc-authors__label">Author</span>
+  <a class="doc-authors__avatar" href="{{ page_first_author.url }}" target="_blank" rel="noopener" title="{{ page_first_author.name }}">
+    <img src="{{ page_first_author.avatar }}" alt="{{ page_first_author.name }}" loading="lazy">
+  </a>
+  <span class="doc-authors__name">{{ page_first_author.name }}</span>
+  {% endif %}
+  {% if page_last_author and page_last_author.avatar %}
+  <span class="doc-authors__sep">·</span>
+  <span class="doc-authors__label">Last modified</span>
+  <a class="doc-authors__avatar" href="{{ page_last_author.url }}" target="_blank" rel="noopener" title="{{ page_last_author.name }}">
+    <img src="{{ page_last_author.avatar }}" alt="{{ page_last_author.name }}" loading="lazy">
+  </a>
+  <span class="doc-authors__name">{{ page_last_author.name }}</span>
+  {% endif %}
+  {% if last_commit_date %}
+  <span class="doc-authors__sep">·</span>
+  <span class="doc-authors__date">{{ last_commit_date }}</span>
+  {% endif %}
+</div>
+{% endif %}
+
+{{ page.content }}
+{% include "partials/source-file.html" %}
+{% include "partials/feedback.html" %}
+{% include "partials/comments.html" %}
