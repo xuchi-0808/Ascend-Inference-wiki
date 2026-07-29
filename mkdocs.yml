@@ -84,6 +84,9 @@ plugins:
       type: date
       timezone: Asia/Shanghai
 
+hooks:
+  - docs/hooks/page_authors.py
+
 nav:
   - 首页: index.md
   - 调测经验:
@@ -110,5 +113,8 @@ extra:
 
 extra_css:
   - stylesheets/extra.css
+
+extra_javascript:
+  - javascripts/extra.js
 
 copyright: Copyright &copy; 推理开发部
