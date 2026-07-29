@@ -1,3 +1,7 @@
+---
+comments: false
+---
+
 # Ascend Inference Wiki
 
 昇腾（Ascend）大模型推理开发经验沉淀 —— 调测复盘、设计方案、实践指南。
