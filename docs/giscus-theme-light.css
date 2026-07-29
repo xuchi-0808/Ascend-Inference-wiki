@@ -1,0 +1,60 @@
+/*! Ascend Inference Wiki - Giscus light theme (Anthropic style) */
+main {
+  --color-foreground: #1A1A1A;
+  --color-background: #F4F1EA;
+  --color-subtle: #5C5A54;
+
+  --color-neutral-muted: rgba(138, 135, 128, 0.2);
+  --color-neutral-subtle: rgba(138, 135, 128, 0.12);
+
+  --color-accent-fg: #C2410C;
+  --color-accent-emphasis: #C2410C;
+  --color-accent-muted: rgba(217, 119, 87, 0.4);
+  --color-accent-subtle: rgba(217, 119, 87, 0.12);
+
+  --color-success-fg: #1a7f37;
+  --color-attention-fg: #9a6700;
+  --color-attention-subtle: #EDE9E2;
+  --color-severe-fg: #bc4c00;
+  --color-danger-fg: #d1242f;
+  --color-danger-emphasis: #cf222e;
+  --color-done-fg: #8250df;
+
+  --color-btn-text: #1A1A1A;
+  --color-btn-bg: #EDE9E2;
+  --color-btn-border: rgba(28, 25, 23, 0.15);
+  --color-btn-hover-bg: #E5E1DA;
+  --color-btn-hover-border: rgba(28, 25, 23, 0.15);
+  --color-btn-primary-text: #ffffff;
+  --color-btn-primary-bg: #C2410C;
+  --color-btn-primary-border: transparent;
+  --color-btn-primary-hover-bg: #9a3412;
+  --color-btn-primary-hover-border: transparent;
+
+  --color-counter-border: rgba(138, 135, 128, 0.2);
+  --color-counter-bg: #EDE9E2;
+
+  --color-header-bg: transparent;
+  --color-header-text: #1A1A1A;
+  --color-header-logo: #1A1A1A;
+
+  --color-box-border: #EDE9E2;
+  --color-box-border-muted: #EDE9E2;
+  --color-box-bg: #EDE9E2;
+
+  --color-input-bg: #FDFDF7;
+  --color-input-contrast-bg: #F4F1EA;
+  --color-input-border: #C9C4B8;
+
+  --color-tag-bg: rgba(217, 119, 87, 0.12);
+  --color-tag-border: rgba(217, 119, 87, 0.25);
+  --color-tag-text: #C2410C;
+
+  --color-overlay-bg: rgba(28, 25, 23, 0.5);
+
+  --color-react-border: #EDE9E2;
+  --color-react-bg: transparent;
+
+  --font-body: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}

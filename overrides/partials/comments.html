@@ -1,4 +1,7 @@
 {% if page.meta.comments %}
+  <p>
+    <strong>本文浏览量：</strong><span id="busuanzi_value_page_pv">--</span>
+  </p>
   <h2 id="__comments">{{ lang.t("meta.comments") }}</h2>
 
   <script
@@ -12,7 +15,7 @@
     data-reactions-enabled="1"
     data-emit-metadata="0"
     data-input-position="top"
-    data-theme="light"
+    data-theme="https://cdn.jsdelivr.net/gh/xuchi-0808/Ascend-Inference-wiki@master/docs/giscus-theme-light.css"
     data-lang="zh-CN"
     crossorigin="anonymous"
     async
@@ -20,13 +23,16 @@
   </script>
 
   <script>
+    var GISCUS_LIGHT = "https://cdn.jsdelivr.net/gh/xuchi-0808/Ascend-Inference-wiki@master/docs/giscus-theme-light.css";
+    var GISCUS_DARK = "https://cdn.jsdelivr.net/gh/xuchi-0808/Ascend-Inference-wiki@master/docs/giscus-theme-dark.css";
+
     var giscus = document.querySelector("script[src*=giscus]");
 
     var palette = __md_get("__palette");
     if (palette && typeof palette.color === "object") {
       var theme = palette.color.scheme === "slate"
-        ? "transparent_dark"
-        : "light";
+        ? GISCUS_DARK
+        : GISCUS_LIGHT;
       giscus.setAttribute("data-theme", theme);
     }
 
@@ -37,8 +43,8 @@
           var palette = __md_get("__palette");
           if (palette && typeof palette.color === "object") {
             var theme = palette.color.scheme === "slate"
-              ? "transparent_dark"
-              : "light";
+              ? GISCUS_DARK
+              : GISCUS_LIGHT;
             var frame = document.querySelector(".giscus-frame");
             if (frame) {
               frame.contentWindow.postMessage(

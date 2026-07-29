@@ -1,0 +1,20 @@
+{#-
+  覆盖默认 copyright.html：保留原内容 + 接入 busuanzi 总 PV/UV
+-#}
+<div class="md-copyright">
+  {% if config.copyright %}
+    <div class="md-copyright__highlight">
+      {{ config.copyright }}
+    </div>
+  {% endif %}
+  {% if not config.extra.generator == false %}
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  {% endif %}
+  · Total views <span id="busuanzi_value_site_pv">--</span>
+  · Visitors <span id="busuanzi_value_site_uv">--</span>
+</div>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
