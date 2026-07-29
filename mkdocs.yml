@@ -4,7 +4,7 @@ site_author: 推理开发部
 site_url: !ENV [READTHEDOCS_CANONICAL_URL, "https://ascend-inference-wiki.readthedocs.io/"]
 
 repo_url: https://github.com/xuchi-0808/Ascend-Inference-wiki
-repo_name: xuchi-0808/Ascend-Inference-wiki
+repo_name: Ascend-Inference-wiki
 edit_uri: edit/master/docs/
 
 docs_dir: docs
