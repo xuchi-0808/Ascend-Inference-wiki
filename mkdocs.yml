@@ -105,6 +105,7 @@ nav:
       - practice/building-vllm-ascend-from-source.md
       - practice/dual-node-test-manual-launch-guide.md
       - practice/extracting-test-procedure-from-ci-logs.md
+      - practice/download-from-cmc-with-aria2c.md
 
 extra:
   social:
