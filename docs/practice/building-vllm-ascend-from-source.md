@@ -1,6 +1,6 @@
 # vllm-ascend 从源码编译安装
 
-> 本文档指导用户在 **Docker 容器** 中从源码编译安装 vllm 和 vllm-ascend。涵盖绿区（华为内网）、蓝区（受限外网）、外网三种网络环境。裸机环境可参考但未经验证。
+> 本文档指导用户在 **Docker 容器** 中从源码编译安装 vllm 和 vllm-ascend。涵盖 Y/G 区（内网）、B 区（受限外网）、外网三种网络环境。裸机环境可参考但未经验证。
 >
 > 安装前请确保容器内已准备好 CANN、torch_npu 等依赖。
 >
@@ -55,7 +55,7 @@ VLLM_TARGET_DEVICE=empty pip install -v -e . --no-build-isolation
 
 ## 2. 安装 [vllm-ascend](https://github.com/vllm-project/vllm-ascend)
 
-### 绿区环境（内网服务器）
+### Y/G 区环境（内网服务器）
 
 无法访问 PyPI，使用内部 triton 源：
 
@@ -76,7 +76,7 @@ pip install -v -e . \
   --extra-index-url https://triton-ascend.osinfra.cn/pypi/simple
 ```
 
-### 蓝区环境（受限外网）
+### B 区环境（受限外网）
 
 无法访问官方 PyPI，但可访问阿里云镜像：
 
