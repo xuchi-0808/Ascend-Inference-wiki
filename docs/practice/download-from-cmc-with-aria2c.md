@@ -12,9 +12,7 @@
 
 从 aria2 静态构建发布页下载 aarch64 版本：
 
-```bash
-wget https://github.com/abcfy2/aria2-static-build/releases/download/v1.37.0/aria2-aarch64-linux-musl_static.zip
-```
+[https://github.com/abcfy2/aria2-static-build/](https://github.com/abcfy2/aria2-static-build/releases)
 
 > 如果服务器 CPU 架构不是 aarch64，在上述发布页选择对应架构的包。NPU 服务器一般为 aarch64。
 
