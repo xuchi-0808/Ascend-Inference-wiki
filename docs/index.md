@@ -13,11 +13,11 @@ comments: false
 
 ## 内容导航
 
-- **指南** —— 操作指南与教程，读者来「做」。[浏览 →](guides/index.md)
-- **参考** —— 事实手册，读者来「查」。[浏览 →](reference/index.md)
-- **解析** —— 原理深读，读者来「懂」。[浏览 →](explanations/index.md)
+- **操作指南** —— 跟着步骤完成任务，读者来「做」。[浏览 →](guides/index.md)
+- **参考手册** —— 查阅 API、参数、规格，读者来「查」。[浏览 →](reference/index.md)
+- **原理解析** —— 理解机制与设计取舍，读者来「懂」。[浏览 →](explanations/index.md)
+- **设计方案** —— 方案与 RFC，读者来「议」。[浏览 →](design/index.md)
 - **博客** —— 复盘、笔记、观点，读者来「看」。[浏览 →](blog/index.md)
-- **设计** —— 方案与 RFC，读者来「议」。[浏览 →](design/index.md)
 
 ---
 

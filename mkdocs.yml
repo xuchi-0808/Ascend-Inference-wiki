@@ -93,7 +93,7 @@ hooks:
 
 nav:
   - 首页: index.md
-  - 指南:
+  - 操作指南:
       - guides/index.md
       - 环境搭建:
           - guides/environment/building-vllm-ascend-from-source.md
@@ -105,17 +105,17 @@ nav:
           - guides/benchmarking/extracting-test-procedure-from-ci-logs.md
       - 故障排查:
           - guides/troubleshooting/environment-troubleshooting-guide.md
-  - 参考:
+  - 参考手册:
       - reference/index.md
-  - 解析:
+  - 原理解析:
       - explanations/index.md
       - explanations/dsv32-dp-o-matrix-column-splitting.md
       - explanations/dsv4-mla-o-matrix-module-level-tp.md
       - explanations/lmhead-tp-code-tracing.md
+  - 设计方案:
+      - design/index.md
   - 博客:
       - blog/index.md
-  - 设计:
-      - design/index.md
   - 标签: tags.md
   - 关于: about.md
 
