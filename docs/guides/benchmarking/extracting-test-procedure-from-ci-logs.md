@@ -1,3 +1,12 @@
+---
+date: 2026-06-04
+tags:
+  - CI
+  - 测试
+  - nightly
+  - AISBench
+---
+
 # 从 nightly CI 流水线日志提取测试拉起方式
 
 ## 背景

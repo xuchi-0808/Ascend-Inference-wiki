@@ -1,3 +1,13 @@
+---
+date: 2026-06-24
+categories:
+  - 缺陷分析
+tags:
+  - vllm-ascend
+  - 量化
+  - NetLoader
+---
+
 # vLLM-Ascend NetLoader 量化加载缺陷代码层面分析
 
 ## 背景

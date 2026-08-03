@@ -1,3 +1,14 @@
+---
+date: 2026-07-24
+categories:
+  - 复盘
+tags:
+  - DeepSeek
+  - DP
+  - MTP
+  - hang
+---
+
 # A00296 经验沉淀：DSV3.1 DP32 MTP lmheadtp AllGather 崩溃定位全程复盘
 
 > 项目编号：A00296
