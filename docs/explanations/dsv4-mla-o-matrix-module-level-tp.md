@@ -13,7 +13,7 @@ tags:
 
 DeepSeek V4 的 MLA（Multi-head Latent Attention）中，output projection 由两个矩阵组成：
 
-```
+```text
 wo_a: [n_groups * o_lora_rank, n_heads * head_dim // n_groups]   # ColumnParallel
 wo_b: [dim, n_groups * o_lora_rank]                                 # RowParallel
 ```
@@ -38,7 +38,7 @@ wo_b: [dim, n_groups * o_lora_rank]                                 # RowParalle
 
 ### 数据流
 
-```
+```text
 # 标准 TP:
 attn_out → [wo_a: matmul] → [wo_b: matmul + allreduce] → output
 
