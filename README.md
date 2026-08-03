@@ -1,63 +1,42 @@
-# Ascend-Inference-wiki
+# Ascend Inference Wiki
 
-个人工作知识库——记录昇腾推理开发部期间的重要产出文档。
+面向社区与 AI Agent 的昇腾大模型推理知识库——内容灵活、限制小，覆盖 AI Infra、推理特性、模型知识、实践经验。
 
-## Background
+[:rocket: 在线站点](https://ascend-inference-wiki.readthedocs.io/) · [:book: 贡献指南](CONTRIBUTING.md) · [:label: 标签索引](https://ascend-inference-wiki.readthedocs.io/tags/)
 
-专注于 **Ascend NPU 大模型推理引擎** 的开发与适配工作，主要涉及：
+## 内容结构
 
-- **vllm-ascend**：vLLM 推理框架在昇腾平台的移植与适配
-- **ATB** (Ascend Tensor Builder)：昇腾算子库相关开发
-- **msmodelslim**：模型压缩 / 瘦身工具
-- **性能 Benchmark**：推理性能测试与调优
+按**读者意图**分五大类，口诀「做、查、懂、议、看」：
 
-## Structure
+| 分类 | 读者来 | 放什么 |
+|---|---|---|
+| 操作指南 | 做 | 跟着步骤完成任务 |
+| 参考手册 | 查 | 查阅事实（API、参数、规格） |
+| 原理解析 | 懂 | 理解机制与取舍 |
+| 设计方案 | 议 | 方案、RFC、决策 |
+| 博客 | 看 | 复盘、笔记、观点 |
 
-```text
-docs/
-├── design/           # 技术设计方案
-│   ├── dsv32-dp-o-matrix-column-splitting.md
-│   │   — DeepSeek V3.2 O 矩阵切分方案综合分析
-│   │   （vllm-ascend SFA V1 vs MindIE-LLM DP 场景）
-│   │
-│   └── dsv4-mla-o-matrix-module-level-tp.md
-│       — DeepSeek V4 MLA Attention O-Proj Module-Level TP 方案分析
-│
-├── debug/            # 调测经验总结（无编号，英文名）
-│   ├── environment-troubleshooting-guide.md
-│   │   — 双机环境调试踩坑记录（编译/环境变量/benchmark 等）
-│   ├── qwen3-235b-dual-node-accuracy-regression.md
-│   │   — Qwen3-235B 双机 GSM8K accuracy 排查记录
-│   └── qwen3-235b-manual-launch.md
-│       — 双机 vllm serve + aisbench 手动拉起命令速查
-│
-└── practice/         # 实操指南
-    ├── dual-node-test-manual-launch-guide.md
-    │   — 从测试框架中提取环境变量和 vllm serve 命令的手动拉起方式
-    │
-    ├── extracting-test-procedure-from-ci-logs.md
-    │   — 如何从 CI 日志中自行提取完整的测试拉起信息
-    │
-    └── building-vllm-ascend-from-source.md
-        — vllm-ascend 从源码编译安装指南
+技术主题（DeepSeek、双机、精度等）用 **tag** 跨分类组织——一篇文档只归一处，但可挂多个 tag，从多个主题入口都能找到。
 
-debug/                   # 草稿区（可以有编号、非英文名）
+## 贡献
+
+欢迎贡献！先看 [CONTRIBUTING.md](CONTRIBUTING.md)：按读者意图选分类 → 写 frontmatter → 套模板 → 提 PR（conventional commits + `-s`）。
+
+## 本地预览
+
+```bash
+pip install mkdocs-material
+mkdocs serve
 ```
 
-## How to Use
+打开 <http://127.0.0.1:8000>。
 
-- 使用 Markdown 编写，保持结构清晰
-- 文档内可引用外部链接或关联其他文档
-- 支持全文搜索（GitHub / GitCode 内置搜索）
-- 建议用 Obsidian 或其他 Markdown 编辑器浏览以获得更好体验
+## 技术栈
 
-## Related Repos
+[MkDocs Material](https://squidfunk.github.io/mkdocs-material/) + [Read the Docs](https://readthedocs.org)，启用 tags + blog 插件。
 
-- [Ascend](https://github.com/xuchi-0808/Ascend) — 昇腾推理开发总仓（MindIE-LLM / benchmark / msmodelslim / ATB）
+## 相关仓库
+
+- [Ascend](https://github.com/xuchi-0808/Ascend) — 昇腾推理开发总仓
 - [AITools_for_Ascend](https://github.com/xuchi-0808/AITools_for_Ascend) — 昇腾推理工具集
 - [vllm-workspace](https://github.com/xuchi-0808/vllm-workspace) — vLLM + vllm-ascend 工作空间
-
-## Remote
-
-- GitHub: `git@github.com:xuchi-0808/Ascend-Inference-wiki.git` (master)
-- GitCode: 待配置
