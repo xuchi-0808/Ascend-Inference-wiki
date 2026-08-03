@@ -1,8 +1,8 @@
 ---
-description: 事实手册——读者来「查」
+description: 参考手册——查阅 API、参数、规格
 ---
 
-# 参考 Reference
+# 参考手册 Reference
 
 罗列事实，供查阅。规划中：
 
