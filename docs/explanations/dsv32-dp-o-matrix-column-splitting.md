@@ -35,7 +35,7 @@ DeepSeek V3.2 采用 MLA（Multi-head Latent Attention）架构，其 O 投影�
 
 MLA 中 O 矩阵的计算分三个阶段：
 
-```
+```text
 1. Sparse Flash Attention 输出
    attn_output: (T, N, L)           -- latent 空间的 attention 加权和
 
@@ -61,7 +61,7 @@ MLA 中 O 矩阵的计算分三个阶段：
 
 SFA V1 引入 DSA-CP（Data Split Attention - Context Parallelism）后，V Up Projection 的输出来到了一个中间态：
 
-```
+```text
 DSA-CP 输出: (T_local, N_total * V) = (T_local, 16384)  ← 少 token × 全 head (CP 态)
 o_proj 期望: (T_total, N_per_rank * V) = (T_total, 4096) ← 全 token × 分 head (TP 态)
 ```
@@ -86,14 +86,14 @@ o_proj 期望: (T_total, N_per_rank * V) = (T_total, 4096) ← 全 token × 分 
 
 Decode 阶段 T_local 极小（1~8），若直接套用 Prefill 的权重 all-gather 策略：
 
-```
+```text
 权重 all-gather: 117M elms ≈ 234MB（无论 T 大小，权重固定）
 activation all-to-all: T_local × tp × N_per_rank × V ≈ 1 × 4 × 4096 × 2 ≈ 66KB
 ```
 
 **234MB vs 66KB，差了约 3500 倍。** All-to-All 做的是 CP→TP 重分布：
 
-```
+```text
 all-to-all 前 (CP 态): (T_local, N_total * V) = (T_local, 16384)  → 本地 token × 全量 head
 all-to-all 后 (TP 态): (T_total, N_per_rank * V) = (T_total, 4096) → 全量 token × 本卡 head
 ```
@@ -111,7 +111,7 @@ all-to-all 后 (TP 态): (T_total, N_per_rank * V) = (T_total, 4096) → 全量 
 
 ### 2.5 设计哲学总结
 
-```
+```text
                     ┌─ Prefill-only (T大) ──→ Layer Sharding
                     │   (通信可掩盖 + 显存节省优先)
 PD 分离 ────────────┤
@@ -218,6 +218,7 @@ self.o_proj = RowParallelLinear(
 vllm 经验给我们的最大启发是：**在一层之内做 weight 切分需要额外的通信，收益是否值得取决于 T_local 的大小**。
 
 对于 MindIE 的 DP 场景：
+
 - 如果确实是纯 DP（tp=1，每卡独立处理不同请求），O 矩阵列的切分**数学上不成立**，根本不能做
 - 如果是 DP + TP 混合场景，O 矩阵走 RowParallelLinear（当前已实现）是正确的
 - 如果未来要在 DP 场景下优化 O 矩阵显存，ZeRO 风格的 AllGather 权重是唯一可行的理论路径

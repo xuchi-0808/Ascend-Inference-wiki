@@ -11,6 +11,7 @@ tags:
 
 > **文档日期**：2026-06-29
 > **代码版本**：vllm-ascend
+>
 > - 改造前基线：`fe1b1d77`（2026-06-23，上游 main）
 > - 本文档追踪行号基于改造后 commit：`eecb0d32`（2026-06-29，PR [#11086](https://github.com/vllm-project/vllm-ascend/pull/11086)）
 > - 行号可能随上游演进漂移，追踪时以函数名/关键代码片段为准
