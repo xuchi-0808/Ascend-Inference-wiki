@@ -6,7 +6,7 @@ tags:
   - DeepSeek
   - DP
   - MTP
-  - hang
+  - 挂起
 ---
 
 # A00296 经验沉淀：DSV3.1 DP32 MTP lmheadtp AllGather 崩溃定位全程复盘

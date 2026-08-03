@@ -4,7 +4,6 @@ tags:
   - 双机
   - 部署
   - Qwen3
-  - vllm-serve
 ---
 
 # Qwen3-235B-A22B 双机 vllm serve 手动启动命令

@@ -2,9 +2,9 @@
 date: 2026-06-06
 tags:
   - 环境
-  - troubleshooting
+  - 故障排查
   - 双机
-  - 编译
+  - 编译安装
 ---
 
 # vllm-ascend 双机环境调试踩坑记录
