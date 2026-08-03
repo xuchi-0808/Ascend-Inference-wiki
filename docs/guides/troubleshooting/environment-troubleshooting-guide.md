@@ -1,3 +1,12 @@
+---
+date: 2026-06-06
+tags:
+  - 环境
+  - troubleshooting
+  - 双机
+  - 编译
+---
+
 # vllm-ascend 双机环境调试踩坑记录
 
 vllm-ascend 双机 nightly 测试（Qwen3/Qwen 系列 MoE 模型）在环境准备和手动拉起过程中踩过的坑，按环节分类记录。

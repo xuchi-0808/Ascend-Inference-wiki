@@ -1,3 +1,12 @@
+---
+date: 2026-06-04
+tags:
+  - DeepSeek
+  - MLA
+  - 并行
+  - TP
+---
+
 # Attention O-Proj Module-Level TP 方案分析
 
 ## 背景

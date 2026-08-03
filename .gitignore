@@ -11,3 +11,12 @@ site/
 # Python / MkDocs 插件缓存
 .cache/
 __pycache__/
+
+# 草稿区（本地保留，远端不跟踪）
+/draft/
+
+# 规划文件（planning-with-files，纯本地工作文件）
+/task_plan.md
+/progress.md
+/findings.md
+/.planning/

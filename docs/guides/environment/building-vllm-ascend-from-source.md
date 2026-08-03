@@ -1,3 +1,12 @@
+---
+date: 2026-06-04
+tags:
+  - 编译安装
+  - vllm-ascend
+  - vllm
+  - CANN
+---
+
 # vllm-ascend 从源码编译安装
 
 > 本文档指导用户在 **Docker 容器** 中从源码编译安装 vllm 和 vllm-ascend。涵盖 Y/G 区（内网）、B 区（受限外网）、外网三种网络环境。裸机环境可参考但未经验证。

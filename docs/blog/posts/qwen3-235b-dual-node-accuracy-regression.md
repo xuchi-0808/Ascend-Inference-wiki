@@ -1,3 +1,14 @@
+---
+date: 2026-06-04
+categories:
+  - 复盘
+tags:
+  - Qwen3
+  - 双机
+  - 精度
+  - GSM8K
+---
+
 # A00275: Qwen3-235B-A22B 双机 nightly GSM8K accuracy 不达标
 
 ## 问题现象

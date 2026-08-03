@@ -1,3 +1,12 @@
+---
+date: 2026-06-04
+tags:
+  - DeepSeek
+  - 并行
+  - DP
+  - MLA
+---
+
 # DeepSeek V3.2 O 矩阵切分方案综合分析
 
 > 分析范围：vllm-ascend `AscendSFAImpl`（SFA V1）及 MindIE-LLM DP 场景下的 O 矩阵切分方案

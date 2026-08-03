@@ -79,33 +79,45 @@ plugins:
         - en
         - ja
   - meta
+  - tags
+  - blog:
+      post_readtime: false
   - git-revision-date-localized:
       enable_creation_date: true
       type: date
       timezone: Asia/Shanghai
+      enable_git_follow: false
 
 hooks:
   - docs/hooks/page_authors.py
 
 nav:
   - 首页: index.md
-  - 调测经验:
-      - debug/environment-troubleshooting-guide.md
-      - debug/qwen3-235b-dual-node-accuracy-regression.md
-      - debug/qwen3-235b-manual-launch.md
-      - debug/a00282-qwen3-235b-concurrent-accuracy-regression-postmortem.md
-      - debug/a00296-dsv31-dp32-mtp-lmheadtp-allgather-hang-postmortem.md
-      - debug/a00301-qwen3-235b-pd-separation-kv-transfer-precision-postmortem.md
-  - 设计方案:
-      - design/dsv32-dp-o-matrix-column-splitting.md
-      - design/dsv4-mla-o-matrix-module-level-tp.md
-      - design/lmhead-tp-code-tracing.md
-      - design/vllm-ascend-netloader-quantization-loading-analysis.md
-  - 实践指南:
-      - practice/building-vllm-ascend-from-source.md
-      - practice/dual-node-test-manual-launch-guide.md
-      - practice/extracting-test-procedure-from-ci-logs.md
-      - practice/download-from-cmc-with-aria2c.md
+  - 指南:
+      - guides/index.md
+      - 环境搭建:
+          - guides/environment/building-vllm-ascend-from-source.md
+          - guides/environment/download-from-cmc-with-aria2c.md
+      - 部署拉起:
+          - guides/deployment/dual-node-test-manual-launch-guide.md
+          - guides/deployment/qwen3-235b-manual-launch.md
+      - 测试压测:
+          - guides/benchmarking/extracting-test-procedure-from-ci-logs.md
+      - 故障排查:
+          - guides/troubleshooting/environment-troubleshooting-guide.md
+  - 参考:
+      - reference/index.md
+  - 解析:
+      - explanations/index.md
+      - explanations/dsv32-dp-o-matrix-column-splitting.md
+      - explanations/dsv4-mla-o-matrix-module-level-tp.md
+      - explanations/lmhead-tp-code-tracing.md
+  - 博客:
+      - blog/index.md
+  - 设计:
+      - design/index.md
+  - 标签: tags.md
+  - 关于: about.md
 
 extra:
   social:
