@@ -114,6 +114,7 @@ nav:
       - explanations/lmhead-tp-code-tracing.md
   - 设计方案:
       - design/index.md
+      - design/wiki-information-architecture.md
   - 博客:
       - blog/index.md
   - 标签: tags.md
