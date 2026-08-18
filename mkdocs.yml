@@ -112,6 +112,7 @@ nav:
       - explanations/dsv32-dp-o-matrix-column-splitting.md
       - explanations/dsv4-mla-o-matrix-module-level-tp.md
       - explanations/lmhead-tp-code-tracing.md
+      - vllm 权重加载与基础并行策略（TP、EP）: explanations/vllm-weight-loading-tp-ep.md
   - 设计方案:
       - design/index.md
       - design/wiki-information-architecture.md
