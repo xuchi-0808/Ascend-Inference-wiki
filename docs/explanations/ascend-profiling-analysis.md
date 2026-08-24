@@ -11,7 +11,9 @@ tags:
 # vLLM Ascend Profiling 分析指南
 
 > **适用读者**：使用昇腾（Ascend）NPU 做 vLLM 推理性能分析的工程师，希望看懂一份 profiling 产物并从中定位性能瓶颈。
+>
 > **工具环境**：CANN Profiling 产物 + MindStudio Insight（timeline 可视化）+ Excel/WPS（CSV 表格分析）。
+>
 > **本文内容**：profiling 产物结构、`kernel_details.csv` 与 `trace_view.json` 的解读方法、三个典型分析案例、FAQ。
 
 ---
