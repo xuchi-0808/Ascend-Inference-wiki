@@ -11,6 +11,18 @@ comments: false
 
 ---
 
+## News
+
+| 日期 | 更新 |
+| --- | --- |
+| 2026-08-24 | 新增 [《vLLM Ascend Profiling 分析入门》](explanations/ascend-profiling-analysis.md)（原理解析）：profiling 产物结构、`kernel_details.csv` 与 `trace_view.json` 解读方法，以及共享专家多流 CV 掩盖、host bound 空泡定位、多卡对齐与快慢卡分析三个典型案例，36 张配图。 |
+| 2026-08-18 | 新增 [《vLLM 权重加载与基础并行策略（TP、EP）》](explanations/vllm-weight-loading-tp-ep.md)（原理解析）：从磁盘 checkpoint 到每卡参数切片的完整链路——loader 选择、惰性读盘与 EP 过滤、WeightsMapper 映射、TP/EP 切分几何，以及加载提速与跨实例取权重手段，配流程图解。 |
+| 2026-08-03 | 站点信息架构重构：按读者意图分为「做 / 查 / 懂 / 议 / 看」五大分类，引入 tag 体系与博客插件，重命名导航分类；新增[信息架构设计文档](design/wiki-information-architecture.md)与贡献指南（CONTRIBUTING）。 |
+| 2026-07-30 | 新增 [aria2c 从 CMC 多线程下载权重指南](guides/environment/download-from-cmc-with-aria2c.md)（操作指南）。 |
+| 2026-07-29 | 站点改版上线：MkDocs Material 主题、Giscus 页面评论、阅读量统计与暗色模式。 |
+
+---
+
 ## 内容导航
 
 - **操作指南** —— 跟着步骤完成任务，读者来「做」。[浏览 →](guides/index.md)
