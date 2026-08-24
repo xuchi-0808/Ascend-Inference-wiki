@@ -412,7 +412,7 @@ tags:
 
 ![独立通信算子右对齐](../assets/ascend-profiling-analysis/35-right-align-allgather.png)
 
-<p align="center" style="color:#8c8c8c;">图 35：以独立通信算子（AllGather）右端为基准对齐，更为准确</p>
+<p align="center" style="color:#8c8c8c;">图 35：以独立通信算子（ReduceScatter）右端为基准对齐，更为准确</p>
 
 > 目前工具暂不支持自动对齐，需要手动设置偏移完成上述操作。
 
