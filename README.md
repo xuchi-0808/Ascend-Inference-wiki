@@ -1,3 +1,5 @@
+
+
 # Ascend Inference Wiki
 
 面向社区与 AI Agent 的昇腾大模型推理知识库——内容灵活、限制小，覆盖 AI Infra、推理特性、模型知识、实践经验。
@@ -20,7 +22,7 @@
 
 ## 贡献
 
-欢迎贡献！先看 [CONTRIBUTING.md](CONTRIBUTING.md)：按读者意图选分类 → 写 frontmatter → 套模板 → 提 PR（conventional commits + `-s`）。
+欢迎贡献！先看 [CONTRIBUTING.md](CONTRIBUTING.md)：按读者意图选分类 → 写 frontmatter → 套模板 → 本地 `mkdocs build` 无 error → 提 PR（conventional commits + `-s`）。
 
 ## 本地预览
 
