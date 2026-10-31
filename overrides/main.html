@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{#-
+  全站公告横幅（announcement bar）
+
+  - 显示在每页导航栏上方；读者可点 ✕ 关闭，关闭状态存在其浏览器
+    sessionStorage（非 cookie）：本次浏览器会话内不再出现，下次
+    打开浏览器重新提醒一次；公告文字变化后会立即重新提醒
+  - 支持多条公告轮播：在 .announce-slider 里多放几个 <p> 即可，
+    只有一条时静态展示；浏览器禁用 JS 时退化为纵向列表
+  - 无公告时：清空下方 block 的内容即可，横幅整条消失（不要删除本文件）
+  - 维护规则见 CONTRIBUTING.md「首页 News 与公告横幅维护」
+-#}
+{% block announce %}
+  <style>
+    /* 轮播模式（.js 由脚本启用）：所有条目叠放在同一格，轮流淡入淡出 */
+    .announce-slider { overflow: hidden; } /* BFC：避让右侧关闭按钮 */
+    .announce-slider.js { display: grid; }
+    .announce-slider.js > * {
+      grid-area: 1 / 1;
+      margin: .2em 0;
+      opacity: 0;
+      transition: opacity .6s ease;
+    }
+    .announce-slider.js > .is-active { opacity: 1; }
+    @media (prefers-reduced-motion: reduce) {
+      /* 减少动态效果的系统偏好：不轮播，纵向平铺 */
+      .announce-slider.js { display: block; }
+      .announce-slider.js > * { opacity: 1; }
+    }
+  </style>
+
+  <div class="announce-slider">
+    <p class="is-active">📣 阅读量统计服务暂时不可用 —— 正在迁移自建统计服务，其余功能不受影响，恢复后此条公告将移除。</p>
+    <p>📣 近期因版本发布与工作调动，站点内容暂缓更新一段时间，后续将恢复更新，感谢理解。</p>
+  </div>
+
+  <script>
+    (function () {
+      var banner = document.querySelector('[data-md-component="announce"]');
+      var slider = document.currentScript.previousElementSibling;
+      var items = slider ? slider.children : [];
+
+      /* —— 轮播 —— */
+      var INTERVAL = 6000; /* 每条停留毫秒数 */
+      if (items.length > 1) {
+        slider.classList.add('js');
+        var i = 0;
+        setInterval(function () {
+          items[i].classList.remove('is-active');
+          i = (i + 1) % items.length;
+          items[i].classList.add('is-active');
+        }, INTERVAL);
+      }
+
+      /* —— 关闭状态记忆 ——
+         Material 自带的判断对横幅整个 DOM 取 hash：轮播挪动 is-active
+         会让 hash 不稳定，导致换页后横幅重现。这里改对各条公告的
+         「文字」取 hash（class 变化不影响），自行存取 sessionStorage，
+         不用 cookie：随标签页会话存活，退出浏览器即清空，下次打开
+         浏览器重新提醒一次。 */
+      if (!banner) return;
+      var KEY = 'announce-dismissed';
+      var text = Array.prototype.map.call(items, function (p) {
+        return p.textContent.trim();
+      }).join('\n');
+      var h = typeof __md_hash === 'function' ? __md_hash(text) : text;
+      try {
+        if (JSON.parse(sessionStorage.getItem(KEY)) === h) banner.hidden = true;
+        var btn = banner.querySelector('.md-banner__button');
+        if (btn) btn.addEventListener('click', function () {
+          try { sessionStorage.setItem(KEY, JSON.stringify(h)); } catch (e) {}
+        });
+      } catch (e) {}
+    })();
+  </script>
+{% endblock %}

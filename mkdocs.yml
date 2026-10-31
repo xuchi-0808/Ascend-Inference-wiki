@@ -31,6 +31,7 @@ theme:
     - content.tabs.link
     - content.action.edit
     - content.action.view
+    - announce.dismiss
   palette:
     - media: "(prefers-color-scheme: light)"
       scheme: default
