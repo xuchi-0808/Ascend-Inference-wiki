@@ -144,13 +144,32 @@ frontmatter 加 `status` 字段（取值 `draft` / `accepted` / `superseded`）�
 
 1. Fork 仓库 → 新建分支
 2. 写文档：放对分类、加 frontmatter、套模板
-3. 本地验证：`mkdocs build` 无 error
+3. 本地验证：`mkdocs build` 无 error；`markdownlint-cli` 对改动文件无报错（若用 `markdownlint-cli2` 需自行迁移禁用规则配置，否则对已禁用规则报假阳性）
 4. 提交 PR
+
+内容红线：文档**不含敏感信息**（账号、密码、内网 IP 等）。
+
+文件命名：`docs/` 下统一**英文**、全小写 + 短横线（✅ `building-vllm-ascend-from-source.md`，❌ `编译安装指南.md` / `编译安装 v2 最终版.md`）。
 
 commit 规范：
 
 - 用 [conventional commits](https://www.conventionalcommits.org/)：`feat:` / `fix:` / `docs:` / `refactor:` / `chore:`
 - 加 `-s`（Signed-off-by）
+
+## 站点维护踩坑（维护者笔记）
+
+本地开发与构建的实战经验，遇到怪现象先查这里：
+
+- **`mkdocs serve` 改 `mkdocs.yml` 后配置不生效**：热重载不更新配置（nav/插件/favicon/logo），要停掉 serve、删 `site/` 再重启。
+- **改 `overrides/`（主题覆盖）不热重载**：启动 serve 加 `--watch-theme`，或 touch `mkdocs.yml` 触发重建。
+- **meta 插件必须在 blog 之前**：否则 `.meta.yml` 的默认值（如 blog/posts 默认 authors）不被 blog 插件读取。
+- **blog 阅读时间关闭**：CJK 分词不支持，中文文章阅读时间不准，已设 `post_readtime: false`。
+- **git mv 后未 commit 时 git-revision-date 报时间戳 warning**：staged rename + unstaged modify 的中间状态导致，commit 后消失，benign。
+- **Giscus 主题 CSS 用 commit hash**：`overrides/partials/comments.html` 的主题 URL 钉在 `@1ba9b7a`。改 `docs/giscus-theme-*.css` 后必须同步换 hash，否则 jsDelivr 返回缓存旧 CSS。
+- **Giscus 评论按 pathname 匹配 + RTD 版本前缀坑**：RTD 给所有页面加 `zh-cn/latest/` 前缀，本地预览无前缀，同一页在本地和 RTD 是两份 discussion。已用 `data-strict="1"` 精确匹配防止跨页串评；首页关评论（`comments: false`）避免 `/` 模糊匹配。验证线上页面时 curl 要带 `-L` 跟随重定向。
+- **busuanzi 本地总访问量数字异常**：本地 `127.0.0.1` 是全球本地调试共用的域名，数字被污染；线上独立域名正常，本地数字直接忽略。
+- **favicon 位图改色**：无矢量源，用 alpha 合成（Pillow + numpy）。PIL 存 `.ico` 会缩到 64x64，要 `save(format='PNG')` 保留原尺寸。
+- **公告横幅关闭状态不能靠主题自带判断**：Material 对横幅整块 DOM 取 hash，轮播挪 `is-active` class 会让 hash 不稳、换页后横幅诈尸。`overrides/main.html` 里改为按各条公告**文字**取 hash，自存 `sessionStorage`（每次浏览器会话提醒一次）。改公告逻辑时别退回原生机制。
 
 ## 目录结构速查
 

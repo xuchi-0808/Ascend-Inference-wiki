@@ -4,9 +4,12 @@
 # MkDocs 构建产物
 site/
 
-# AI 助手配置（仅本地，不入库）
+# AI 助手本地偏好（仅本地，不入库；仓库规约已单源化到 CONTRIBUTING.md，
+# 跨工具入口为入库的 AGENTS.md）
 /CLAUDE.md
-/AGENTS.md
+
+# 本地部署/运维工作目录（不入库）
+/deploy/
 
 # Python / MkDocs 插件缓存
 .cache/
