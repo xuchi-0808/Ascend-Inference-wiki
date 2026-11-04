@@ -170,6 +170,7 @@ commit 规范：
 - **busuanzi 本地总访问量数字异常**：本地 `127.0.0.1` 是全球本地调试共用的域名，数字被污染；线上独立域名正常，本地数字直接忽略。
 - **favicon 位图改色**：无矢量源，用 alpha 合成（Pillow + numpy）。PIL 存 `.ico` 会缩到 64x64，要 `save(format='PNG')` 保留原尺寸。
 - **公告横幅关闭状态不能靠主题自带判断**：Material 对横幅整块 DOM 取 hash，轮播挪 `is-active` class 会让 hash 不稳、换页后横幅诈尸。`overrides/main.html` 里改为按各条公告**文字**取 hash，自存 `sessionStorage`（每次浏览器会话提醒一次）。改公告逻辑时别退回原生机制。
+- **Material 在大屏断点放大根字号（1600px 起 20→22→24px）**：`overrides/` 里任何用 rem 的自定义 UI 都会在大屏逐档变厚（公告横幅曾从 74px 涨到 89px）。横幅的字号/留白已锚定像素，各屏宽高度恒定约 42px；给主题加自定义样式时同样优先锚定像素。
 
 ## 目录结构速查
 

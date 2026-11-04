@@ -13,12 +13,18 @@
 -#}
 {% block announce %}
   <style>
+    /* —— 高度统一 ——
+       Material 会在大屏断点放大根字号（20→22→24px），横幅若用 rem 会跟着
+       逐档变厚；这里锚定像素，并去掉 md-typeset 给 <p> 的 1em 纵向 margin，
+       使各屏宽下横幅高度恒定（单行约 42px）。 */
+    .md-banner__inner { font-size: 14px; margin: 10px auto; }
+    .announce-slider > * { margin: 0; line-height: 1.6; }
+
     /* 轮播模式（.js 由脚本启用）：所有条目叠放在同一格，轮流淡入淡出 */
     .announce-slider { overflow: hidden; } /* BFC：避让右侧关闭按钮 */
     .announce-slider.js { display: grid; }
     .announce-slider.js > * {
       grid-area: 1 / 1;
-      margin: .2em 0;
       opacity: 0;
       transition: opacity .6s ease;
     }
