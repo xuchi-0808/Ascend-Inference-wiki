@@ -215,6 +215,20 @@ body,
   color: var(--md-accent-fg-color);
 }
 
+/* ---------- 侧栏层级：分栏标题 > 分组小标题 > 文章条目 ---------- */
+/* 顶级分栏标题（操作指南/参考手册…）最大，保证不小于嵌套分组标题 */
+.md-nav--primary > .md-nav__list > .md-nav__item--section > .md-nav__link {
+  font-size: 0.8rem;
+}
+/* 嵌套分组小标题比条目略大且更深色，避免「每组只剩一篇」时读成普通条目 */
+.md-nav__item--section:not(.md-nav__item--active) > .md-nav__link:not(.md-nav__link--active) {
+  color: var(--md-default-fg-color);
+  font-size: 0.75rem;
+}
+.md-nav__item--section:not(:first-child) {
+  margin-top: 0.5rem;
+}
+
 /* ---------- 选择高亮 ---------- */
 ::selection {
   background: rgba(217, 119, 87, 0.24);
