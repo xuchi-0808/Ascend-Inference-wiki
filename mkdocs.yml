@@ -83,6 +83,7 @@ plugins:
   - tags
   - blog:
       post_readtime: false
+      pagination: false
   - git-revision-date-localized:
       enable_creation_date: true
       type: date
@@ -96,13 +97,8 @@ nav:
   - 首页: index.md
   - 操作指南:
       - guides/index.md
-      - 环境搭建:
-          - guides/environment/building-vllm-ascend-from-source.md
-          - guides/environment/download-from-cmc-with-aria2c.md
-      - 部署拉起:
-          - guides/deployment/dual-node-test-manual-launch-guide.md
-      - 故障排查:
-          - guides/troubleshooting/environment-troubleshooting-guide.md
+      - guides/environment/building-vllm-ascend-from-source.md
+      - guides/environment/download-from-cmc-with-aria2c.md
   - 参考手册:
       - reference/index.md
   - 原理解析:
