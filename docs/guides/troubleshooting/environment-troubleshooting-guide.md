@@ -7,7 +7,9 @@ tags:
   - 编译安装
 ---
 
-# vllm-ascend 双机环境调试踩坑记录
+# 【Outdated】vllm-ascend 双机环境调试踩坑记录
+
+> **注**：本文记录的是 2026-06 时点 vllm-ascend `releases/v0.20.2rc` 时代的踩坑，内容已过时，仅作历史参考。
 
 vllm-ascend 双机 nightly 测试（Qwen3/Qwen 系列 MoE 模型）在环境准备和手动拉起过程中踩过的坑，按环节分类记录。
 

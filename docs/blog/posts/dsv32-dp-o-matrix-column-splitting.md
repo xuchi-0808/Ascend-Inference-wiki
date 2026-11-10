@@ -1,5 +1,7 @@
 ---
 date: 2026-06-04
+categories:
+  - 开发笔记
 tags:
   - DeepSeek
   - 并行
@@ -8,6 +10,10 @@ tags:
 ---
 
 # DeepSeek V3.2 O 矩阵切分方案综合分析
+
+> **历史存档**：本文写于 2026-06-04（分析日期 2026-04-29），按原貌保留、不再随版本更新。
+
+<!-- more -->
 
 > 分析范围：vllm-ascend `AscendSFAImpl`（SFA V1）及 MindIE-LLM DP 场景下的 O 矩阵切分方案
 >

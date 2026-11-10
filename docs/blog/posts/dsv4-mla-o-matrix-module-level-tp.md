@@ -1,5 +1,7 @@
 ---
 date: 2026-06-04
+categories:
+  - 开发笔记
 tags:
   - DeepSeek
   - MLA
@@ -8,6 +10,10 @@ tags:
 ---
 
 # Attention O-Proj Module-Level TP 方案分析
+
+> **历史存档**：本文写于 2026-06-04，按原貌保留、不再随版本更新。
+
+<!-- more -->
 
 ## 背景
 

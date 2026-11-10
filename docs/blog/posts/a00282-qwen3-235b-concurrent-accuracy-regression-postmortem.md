@@ -16,6 +16,8 @@ tags:
 > 类型：推理精度回归 / MoE graph capture 静态化
 > 关键词：graph capture / property 静态化 / MC2 / AllGather / custom op
 
+<!-- more -->
+
 ---
 
 ## 1. 问题概述

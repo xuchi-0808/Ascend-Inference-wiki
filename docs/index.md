@@ -15,11 +15,11 @@ comments: false
 
 | 日期 | 更新 |
 | --- | --- |
+| 2026-11-10 | 内容清理：《Qwen3-235B-A22B 双机 vllm serve 手动启动命令》《从 nightly CI 流水线日志提取测试拉起方式》与三篇早期原理解析（DSV3.2 O 矩阵切分、O-Proj Module-Level TP、lm-head TP 源码追踪）按原写作时间归档至[博客](blog/index.md)（分类：开发笔记）；《双机 nightly 测试手动拉起经验总结》《vllm-ascend 双机环境调试踩坑记录》加【Outdated】标记；博客定位扩展为经验杂谈与历史存档。 |
 | 2026-10-31 | 新增页顶公告栏：支持多条公告自动轮播，读者可关闭且跨页面记忆关闭状态；公告与 News 的分工规则更新至贡献指南（CONTRIBUTING）。 |
 | 2026-08-24 | 新增 [《vLLM Ascend Profiling 分析指南》](explanations/ascend-profiling-analysis.md)（原理解析）：profiling 产物结构、`kernel_details.csv` 与 `trace_view.json` 解读方法，以及共享专家多流 CV 掩盖、host bound 空泡定位、多卡对齐与快慢卡分析三个典型案例，36 张配图。 |
 | 2026-08-18 | 新增 [《vLLM 权重加载与基础并行策略（TP、EP）》](explanations/vllm-weight-loading-tp-ep.md)（原理解析）：从磁盘 checkpoint 到每卡参数切片的完整链路——loader 选择、惰性读盘与 EP 过滤、WeightsMapper 映射、TP/EP 切分几何，以及加载提速与跨实例取权重手段，配流程图解。 |
 | 2026-08-03 | 站点信息架构重构：按读者意图分为「做 / 查 / 懂 / 议 / 看」五大分类，引入 tag 体系与博客插件，重命名导航分类；新增[信息架构设计文档](design/wiki-information-architecture.md)与贡献指南（CONTRIBUTING）。 |
-| 2026-07-30 | 新增 [aria2c 从 CMC 多线程下载权重指南](guides/environment/download-from-cmc-with-aria2c.md)（操作指南）。 |
 
 ---
 
@@ -29,7 +29,7 @@ comments: false
 - **参考手册** —— 查阅 API、参数、规格，读者来「查」。[浏览 →](reference/index.md)
 - **原理解析** —— 理解机制与设计取舍，读者来「懂」。[浏览 →](explanations/index.md)
 - **设计方案** —— 方案与 RFC，读者来「议」。[浏览 →](design/index.md)
-- **博客** —— 复盘、笔记、观点，读者来「看」。[浏览 →](blog/index.md)
+- **博客** —— 复盘、笔记、存档，读者来「看」。[浏览 →](blog/index.md)
 
 ---
 
